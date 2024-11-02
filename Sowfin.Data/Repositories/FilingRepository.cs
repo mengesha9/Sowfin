@@ -1,0 +1,20 @@
+using Sowfin.Data.Abstract;
+using Sowfin.Model;
+
+namespace Sowfin.Data.Repositories
+{
+    public class FilingRepository : EntityBaseRepository2<Filing>, IFilingRepository
+    {
+        public FilingRepository(FindataContext context) : base(context) { }
+
+        /*public bool isEmailUniq (string email) {
+            var user = this.GetSingle(u => u.Email == email);
+            return user == null;
+        }
+
+        public bool IsUsernameUniq (string username) {
+            var user = this.GetSingle(u => u.Username == username);
+            return user == null;
+        }*/
+    }
+}
