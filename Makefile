@@ -18,7 +18,7 @@ clean:
 
 # Target to run the migrations
 migrate:
-	@dotnet ef migrations add InitialMigrations --project Sowfin.Data --startup-project Sowfin.API --context FindataContext
+	@dotnet ef migrations add UpdatedMigrations --project Sowfin.Data --startup-project Sowfin.API --context FindataContext
 
 # Target to update the database
 update:

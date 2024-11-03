@@ -122,8 +122,7 @@ namespace Sowfin.API.Controllers
             bool flag = false;
             //set false to all initial setup
             //update
-            try
-            {
+
                 List<InitialSetup_FAnalysis> initialSetupListObj = iInitialSetup_FAnalysis.FindBy(x => x.UserId == UserId).ToList();
                 if (initialSetupListObj != null && initialSetupListObj.Count > 0)
                 {
@@ -135,13 +134,9 @@ namespace Sowfin.API.Controllers
                     iInitialSetup_FAnalysis.Commit();
                     flag = true;
                 }
-            }
-            catch (Exception ss)
-            {
-                Console.WriteLine(ss.Message);
-
-            }
+           
             return flag;
+   
         }
 
 
@@ -158,18 +153,23 @@ namespace Sowfin.API.Controllers
             {
                 ResultObject resultObject = new ResultObject();
                 SetAllAnalysisInitialSetUpFalse(UserId);
-                var InitialSetUptblObj = iInitialSetup_FAnalysis.FindBy(s => s.Id == Id).OrderByDescending(x => x.Id).First();
+                Console.WriteLine("Id is this " + Id);
+                var InitialSetUptblObj = iInitialSetup_FAnalysis.FindBy(s => s.Id == Id).OrderByDescending(x => x.Id).FirstOrDefault();
+                Console.WriteLine(1);
                 InitialSetup_FAnalysisViewModel InitialSetUpObj = new InitialSetup_FAnalysisViewModel();
                 if (InitialSetUptblObj == null)
                 {
                     resultObject.id = 0;
                     resultObject.result = 0;
-                    return Ok(resultObject);
+                    return Ok(new {result = resultObject});
                 }
                 else
                 {
+                    Console.WriteLine(2);
                     InitialSetUptblObj.IsActive = true;
+                    Console.WriteLine(3);
                     iInitialSetup_FAnalysis.Update(InitialSetUptblObj);
+                    Console.WriteLine(4);
                     iInitialSetup_FAnalysis.Commit();
 
                     // map table to vm
@@ -329,7 +329,7 @@ namespace Sowfin.API.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("DeleteDataByInitialSetup_FAnalysisId/{InitialSetup_FAnalysisId}")]
         public ActionResult DeleteDataByInitialSetup_FAnalysisId(long InitialSetup_FAnalysisId)
         {
@@ -567,7 +567,7 @@ namespace Sowfin.API.Controllers
                 ////Update InitialSetupID into Filings///
                 long? InitialSetupID = null;
                 List<FAnalysis_CategoryByInitialSetup> categoryList = new List<FAnalysis_CategoryByInitialSetup>();
-                InitialSetup_FAnalysis InitialSetup_IValuationObj = iInitialSetup_FAnalysis.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_FAnalysis InitialSetup_IValuationObj = iInitialSetup_FAnalysis.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 if (InitialSetup_IValuationObj != null)
                 {
                     InitialSetupID = InitialSetup_IValuationObj.Id;
@@ -843,15 +843,17 @@ namespace Sowfin.API.Controllers
                     }
                     catch (Exception ss)
                     {
-                        return Ok("issue in save category by Initial Setup" + InitialSetupId);
+                        return BadRequest(ss.Message);
                     }
                     return Ok("Updated succesfully");
                 }
                 else
-                    return Ok("Initial Setup not exist for" + InitialSetupId);
+                    return Ok( new{message = "Initial Setup not exist for " + InitialSetupId});
 
             }
-            catch (Exception ss) { return Ok("Error occured"); }
+            catch (Exception ss) { 
+                return BadRequest(ss.Message);
+                 }
         }
 
     
@@ -872,12 +874,11 @@ namespace Sowfin.API.Controllers
 
             try
             {
-                InitialSetup_FAnalysis InitialSetup_FAnalysisObj = iInitialSetup_FAnalysis.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_FAnalysis InitialSetup_FAnalysisObj = iInitialSetup_FAnalysis.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 long? Initialsetup_FAnalysisId = null;
                 if (InitialSetup_FAnalysisObj != null)
                 {
                     Initialsetup_FAnalysisId = InitialSetup_FAnalysisObj.Id;
-
 
                     int Startyear = Convert.ToInt32(InitialSetup_FAnalysisObj.YearFrom);
                     int Endyear = Convert.ToInt32(InitialSetup_FAnalysisObj.YearTo);
@@ -892,6 +893,7 @@ namespace Sowfin.API.Controllers
                     }
 
                 }
+
                 List<MarketDatas> tblMarketDataListObj = Initialsetup_FAnalysisId != null ? iMarketDatas.FindBy(x => x.InitialSetup_FAnalysisId == Initialsetup_FAnalysisId).OrderBy(x=>x.Sequence).ToList() : null;
                 if (tblMarketDataListObj != null && tblMarketDataListObj.Count > 0)  //when data is saved 
                 {
@@ -1021,7 +1023,6 @@ namespace Sowfin.API.Controllers
                     MarketDatasVM.MarketValuesVM = new List<MarketValuesViewModel>();
                     IntegratedDatasFAnalysis CashnCashEquivalentDatas = iIntegratedDatasFAnalysis.GetSingle(x => x.InitialSetup_FAnalysisId == Initialsetup_FAnalysisId && x.StatementTypeId == 2 && x.LineItem.ToLower().Contains("cash and cash equivalents"));
                     var CashnCashEquivalentValueList = CashnCashEquivalentDatas != null ? iIntegratedValuesFAnalysis.FindBy(x => x.IntegratedDatasFAnalysisId == CashnCashEquivalentDatas.Id).ToList() : null;
-
                     foreach (MarketValuesViewModel Marketitem in MarketValuesList)
                     {
                         MarketValuesVM = new MarketValuesViewModel();
@@ -1032,7 +1033,7 @@ namespace Sowfin.API.Controllers
                         MarketDatasVM.MarketValuesVM.Add(MarketValuesVM);
                     }
                     MarketDatasList.Add(MarketDatasVM);
-
+                    
                     MarketDatasVM = new MarketDatasViewModel();
                     MarketDatasVM.LineItem = "Cash Needed for Working Capital ($M)";
                     MarketDatasVM.Sequence = 7;
@@ -1086,7 +1087,6 @@ namespace Sowfin.API.Controllers
                         MarketDatasVM.MarketValuesVM.Add(MarketValuesVM);
                     }
                     MarketDatasList.Add(MarketDatasVM);
-
                     MarketDatasVM = new MarketDatasViewModel();
                     MarketDatasVM.LineItem = "NOPLAT";
                     MarketDatasVM.Sequence = 10;
@@ -1094,13 +1094,14 @@ namespace Sowfin.API.Controllers
                     MarketDatasVM.IsTally = false;
                     MarketDatasVM.Category = "";
                     MarketDatasVM.InitialSetup_FAnalysisId = Initialsetup_FAnalysisId;
+                    
+
                     MarketDatasVM.MarketValuesVM = new List<MarketValuesViewModel>();
-                    if (InitialSetup_FAnalysisObj.SourceId == 1)
+                    if (InitialSetup_FAnalysisObj!= null && InitialSetup_FAnalysisObj.SourceId == 1)
                     {
                         //Data get from ROIC
                         ROICDatas NOPLAT_Datas = iROICDatas.GetSingle(x => x.LineItem == "NOPLAT" && x.InitialSetupId == InitialSetup_FAnalysisObj.InitialSetupId);
                         List<ROICValues> NOPLAT_ValuesList = NOPLAT_Datas != null ? iROICValues.FindBy(x => x.ROICDatasId == NOPLAT_Datas.Id).ToList() : null;
-
                         foreach (MarketValuesViewModel Marketitem in MarketValuesList)
                         {
                             MarketValuesVM = new MarketValuesViewModel();
@@ -1137,7 +1138,7 @@ namespace Sowfin.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(Convert.ToString(ex.Message));
+                return BadRequest(ex.Message);
 
             }
 
@@ -1581,6 +1582,12 @@ namespace Sowfin.API.Controllers
 
         }
 
+
+
+
+
+
+
         //SAVE
         [HttpGet]
         [Route("GetIntegratedDataforAnalysis/{UserId}/{InitialsetupId}/{StatementType}/{cik}/{startYear?}/{endYear?}")]
@@ -1591,12 +1598,13 @@ namespace Sowfin.API.Controllers
             try
             {
                 long? InitialSetupId = null;
-                InitialSetup_FAnalysis InitialSetup_IValuationObj = iInitialSetup_FAnalysis.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).First();
+                InitialSetup_FAnalysis InitialSetup_IValuationObj = iInitialSetup_FAnalysis.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).FirstOrDefault();
                 //InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
                 if (InitialSetup_IValuationObj != null)
                 {
                     InitialSetupId = InitialSetup_IValuationObj.Id;
                 }
+                
                 List<IntegratedDatasFAnalysis> integratedDatasobj = iIntegratedDatasFAnalysis.FindBy(x => x.InitialSetup_FAnalysisId == InitialSetupId).ToList();
                 if (integratedDatasobj != null && integratedDatasobj.Count > 0)
                 {
@@ -2584,6 +2592,14 @@ namespace Sowfin.API.Controllers
                 return BadRequest(Convert.ToString(ex.Message));
             }
         }
+
+
+
+
+
+
+
+
 
 
 

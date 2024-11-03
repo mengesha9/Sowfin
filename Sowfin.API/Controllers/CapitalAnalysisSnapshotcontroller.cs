@@ -7,7 +7,7 @@ using Sowfin.API.ViewModels;
 using Sowfin.Data.Abstract;
 using Sowfin.Model.Entities;
 using System;
-
+using Sowfin.Model.Entities;
 namespace Sowfin.API.Controllers
 {
     [ApiController]
@@ -22,12 +22,11 @@ namespace Sowfin.API.Controllers
             iCapitalAnalysisSnapshots = _iCapitalAnalysisSnapshots;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
-        public ActionResult<Object> AddCapitalAnalysisSnapshot(string str)
+        public ActionResult<Object> AddCapitalAnalysisSnapshot([FromBody]CapitalAnalysisSnapshotViewModel   model)
         {
-            Console.WriteLine("String is " + str);
-            CapitalAnalysisSnapshotViewModel model = JsonConvert.DeserializeObject<CapitalAnalysisSnapshotViewModel>(str);
+            Console.WriteLine("String is " + model.SnapShot);
 
             CapitalAnalysisSnapshot capitalAnalysisSnapshot = new CapitalAnalysisSnapshot
             {
@@ -40,9 +39,9 @@ namespace Sowfin.API.Controllers
                 iCapitalAnalysisSnapshots.Add(capitalAnalysisSnapshot);
                 return Ok(new { id = capitalAnalysisSnapshot.Id, result = "Saved sucesfully" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -55,34 +54,35 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iCapitalAnalysisSnapshots.FindBy(s => s.UserId == UserId);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No Snapshots found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
 
             }
 
         }
 
         [HttpGet]
-        [Route("CapitalAnalysisSnapshot/{id}")]
-        public ActionResult<Object> CapitalAnalysisSnapshots(long Id)
+        [Route("GetCapitalAnalysisSnapshot/{Id}")]
+        public ActionResult<Object> GetCapitalAnalysisSnapshot(long Id)
         {
             try
             {
-                var SnapShot = iCapitalAnalysisSnapshots.GetSingle(s => s.Id == Id);
+                var SnapShot = iCapitalAnalysisSnapshots.FindBy(s => s.Id == Id);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No Snapshots found");
                 }
+                Console.WriteLine("SnapShot is " + SnapShot);
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
         }
@@ -93,7 +93,6 @@ namespace Sowfin.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                Console.WriteLine("Model state is valid");
 
                 CapitalAnalysisSnapshot capitalAnalysisSnapshot = new CapitalAnalysisSnapshot
                 {

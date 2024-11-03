@@ -2626,37 +2626,40 @@ namespace Sowfin.API.Controllers
                 }
                 if (CapitalStructure == null)
                 {
-                    return NotFound();
+                    return NotFound("No Data Found");
                 }
 
                 return Ok(CapitalStructure);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpGet]
-        [Route("GetCapitalStructure/{id}")]
-        public ActionResult<Object> GetCapitalStructure(int Id)
+        [Route("GetCapitalStructure/{Id}")]
+        public ActionResult<Object> GetCapitalStructure(long Id)
         {
-            if (Id == 0)
-            {
-                return BadRequest();
-            }
+            // if (Id == 0)
+            // {
+            //     return BadRequest();
+            // }
             try
             {
                 var CapitalStructure = iCapitalStructure.GetSingle(s => s.Id == Id);
+                Console.WriteLine("CapitalStructure");
                 if (CapitalStructure == null)
                 {
-                    return NotFound();
+                    Console.WriteLine("CapitalStructure 2");
+                    return NotFound("No Data Found");
                 }
                 return Ok(CapitalStructure);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                Console.WriteLine("CapitalStructure 3");
+                return BadRequest(ex.Message);
             }
         }
 
@@ -2828,11 +2831,11 @@ namespace Sowfin.API.Controllers
 
         }
 
-        [HttpGet]
+        [HttpDelete]
         [Route("DeleteCapitalStructure/{id}")]
         public ActionResult<Object> DeleteCapitalStructure(int id)
         {
-            int result = 0;
+            // int result = 0;
 
             if (id == 0)
             {
@@ -2842,16 +2845,16 @@ namespace Sowfin.API.Controllers
             try
             {
                 iCapitalStructure.DeleteWhere(s => s.Id == id);
-                if (result == 0)
-                {
-                    return NotFound();
-                }
-                return Ok();
+                // if (result == 0)
+                // {
+                //     return NotFound("Record Not Found");
+                // }
+                return Ok("Successfully Deleted");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -2880,12 +2883,12 @@ namespace Sowfin.API.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("Approval flag is not valid");
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -2895,11 +2898,11 @@ namespace Sowfin.API.Controllers
         //     public int ApprovalFlag;
         // }
 
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
-        public ActionResult<Object> AddCapitalStructureSnapshot(string str)
+        public ActionResult<Object> AddCapitalStructureSnapshot([FromBody]CapitalAnalysisSnapshots model)
         {
-            CapitalAnalysisSnapshots model = JsonConvert.DeserializeObject<CapitalAnalysisSnapshots>(str);
+            // CapitalAnalysisSnapshots model = JsonConvert.DeserializeObject<CapitalAnalysisSnapshots>(str);
             try
             {
                 Snapshots snapshots = new Snapshots
@@ -2915,10 +2918,10 @@ namespace Sowfin.API.Controllers
                 return Ok(new { id = snapshots.Id, result = "Snapshot saved sucessfully" });
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
 
 
@@ -2935,41 +2938,36 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapshots.FindBy(s => s.UserId == UserId && s.SnapShotType == CAPITALSTRUCTURE);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("Snapshot not found.");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
 
             }
 
         }
 
         [HttpGet]
-        [Route("CapitalStructureSnapShot/{id}")]
+        [Route("CapitalStructureSnapShot/{Id}")]
         public ActionResult<Object> CapitalStructureSnapShot(long Id)
         {
-            Console.WriteLine("Hello World!");
 
             try
             {
-                Console.WriteLine("Hello World! inside try");
 
                 var SnapShot = iSnapshots.FindBy(s => s.Id == Id && s.SnapShotType == CAPITALSTRUCTURE);
                 if (SnapShot == null)
                 {
                     return NotFound("Snapshot not found.");
-                    Console.WriteLine("Hello World! inside try not found");
 
                 }
                 return Ok(SnapShot);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("Hello World! inside catch");
-
                 return BadRequest(new { message = "An error occurred.", details = ex.Message });
             }
 
@@ -3089,7 +3087,12 @@ namespace Sowfin.API.Controllers
                         wsCapitalStructure = package.Workbook.Worksheets["ScenarioAnalysis"];
                     }
 
-                    wsCapitalStructure = CapitalStructureExcelExport(capitalStructure, wsCapitalStructure, "D");
+                    if( capitalStructure != null && capitalStructure.Count > 0)
+                    {
+                         wsCapitalStructure = CapitalStructureExcelExport(capitalStructure, wsCapitalStructure, "D");
+                    }
+
+
                     if (Flag == 2)
                     {
                         wsCapitalStructure = ExcelOutputScenario(capitalStructure, wsCapitalStructure);
@@ -3478,13 +3481,7 @@ namespace Sowfin.API.Controllers
         private ExcelWorksheet CapitalStructureExcelExportNew(List<MasterCostofCapitalNStructureViewModel> capitalStructure, ExcelWorksheet wsCapitalStructure)
         {
 
-        // public ExcelWorksheet CapitalStructureExcelExportNew(CapitalStructureExportRequest capitalStructureExportRequest){
-
-        //     List<MasterCostofCapitalNStructureViewModel> capitalStructure = capitalStructureExportRequest.CapitalStructure;
-        //     ExcelWorksheet wsCapitalStructure = capitalStructureExportRequest.WorksheetName;
-
-
-
+        
 
             var capitalStructureList = capitalStructure[0];
 
@@ -3661,7 +3658,18 @@ namespace Sowfin.API.Controllers
             wsCapitalStructure = CellValueFormatting("C8", "Current Share Price", "D8", equity.CurrentSharePrice, equityUnit.CurrentSharePriceUnit, 0, 0, wsCapitalStructure);
             wsCapitalStructure = CellValueFormatting("C9", "Number of Shares Outstanding - Basic", "D9", equity.NumberShareBasic, equityUnit.NumberShareBasicUnit, 1, 0, wsCapitalStructure);
             wsCapitalStructure = CellValueFormatting("C10", "Number of Shares Outstanding - Diluted", "D10", equity.NumberShareOutstanding, equityUnit.NumberShareOutstandingUnit, 1, 0, wsCapitalStructure);
-            wsCapitalStructure.Cells["D11"].Value = (equity.CostOfEquity / 100);
+
+
+            if (equity != null && equity.CostOfEquity != null)
+            {
+                wsCapitalStructure.Cells["D11"].Value = (equity.CostOfEquity / 100);
+            }
+            else
+            {
+                wsCapitalStructure.Cells["D11"].Value = 0; 
+            }
+
+            // wsCapitalStructure.Cells["D11"].Value = (equity.CostOfEquity / 100);
 
             var preffEquity = capitalStructureOuput.prefferedEquity;
             var preffEquityUnit = capitalStructureOuput.prefferedEquityUnit;
@@ -3857,6 +3865,10 @@ namespace Sowfin.API.Controllers
             if (Flag == 1)
             {
                 var capitalStruct = iCapitalStructure.FindBy(s => s.UserId == UserId).ToArray();
+                if(capitalStruct.Length == 0)
+                {
+                    return NotFound("No record found");
+                }
                 capitalStruct[0].SummaryFlag = 0;
                 iCapitalStructure.Update(capitalStruct[0]);
                 iCapitalStructure.Commit();
@@ -4098,13 +4110,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iCapitalStructureScenarioSnapshot.GetSingle(s => s.Id == Id && s.SnapshotType == CAPITALSTRUCTURESCENARIO);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No record found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
         #endregion

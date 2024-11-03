@@ -164,10 +164,17 @@ namespace Sowfin.API.Controllers
         [Route("test")]
         public ActionResult test()
         {
-            string NotePadPath = Configuration.GetValue<string>("NotePadPath");
-            Process.Start(NotePadPath);
+            try{
+                string NotePadPath = Configuration.GetValue<string>("NotePadPath");
+                Process.Start(NotePadPath);
+                return Ok("DONE");
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
             //Process.Start("D:\\SowFin\\backend\\backend\\Sowfin.API\\wwwroot\\Helper\\notepad.exe");
-            return Ok("DONE");
         }
 
 
@@ -176,12 +183,12 @@ namespace Sowfin.API.Controllers
         [Route("GetBetaValueByCompany")]
         public ActionResult GetBetaValueByCompany(string CompanyName, int FinanceType = 1)
         {
-            string Result = string.Empty;
-            string ChromeDriverPath = Configuration.GetValue<string>("CromeDriverPath");           
-            //string AddressURL = "https://finance.yahoo.com/quote/TCS?p=TCS&.tsrc=fin-srch";           
 
             try
             {
+                string Result = string.Empty;
+                string ChromeDriverPath = Configuration.GetValue<string>("CromeDriverPath");           
+                //string AddressURL = "https://finance.yahoo.com/quote/TCS?p=TCS&.tsrc=fin-srch";           
                 if (FinanceType == 1)
                 {
                      string AddressURL = string.Empty;
@@ -195,13 +202,14 @@ namespace Sowfin.API.Controllers
                         Result = driver.FindElement(By.XPath(path)).Text != "" ? driver.FindElement(By.XPath(path)).Text : "0";
                     }
                 }
+
+                return Ok(new  {Result = Result, status = "Success" });
+
             }
             catch (Exception ex)
             {
-                Result = "Please enter valid company or contact admin";
-                return BadRequest(Result);
+                return BadRequest(ex.Message);
             }
-            return Ok(Result);
         }
 
 
@@ -211,28 +219,28 @@ namespace Sowfin.API.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("GetCostOfCapital/{id}")]
+        [Route("GetCostOfCapital/{Id}")]
         public ActionResult<Object> GetCostOfCapital(long Id)
         {
-            if (Id == 0)
-            {
-                return BadRequest();
-            }
+            // if (Id == 0)
+            // {
+            //     return BadRequest();
+            // }
             try
             {
                 ResultObject resultObject = new ResultObject();
                 var costOfCapital = iCostOfCapital.GetSingle(s => s.Id == Id);
-                if (costOfCapital == null)
+                if (costOfCapital == null )
                 {
                     resultObject.id = 0;
                     resultObject.result = 0;
-                    return NotFound();
+                    return NotFound("No Cost of Capital found");
                 }
                 return Ok(costOfCapital);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -358,9 +366,9 @@ namespace Sowfin.API.Controllers
                     return Ok(result);
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -376,8 +384,7 @@ namespace Sowfin.API.Controllers
             try
             {
 
-                if (model.CalculateBeta_Id != null)
-                    if (model.CalculateBeta_Id == 0)
+                if (model.CalculateBeta_Id != null && model.CalculateBeta_Id == 0)
                     {
                         CalculateBeta CalculateBetaObj = new CalculateBeta
                         {
@@ -425,13 +432,13 @@ namespace Sowfin.API.Controllers
                 {
                     var worksheet = package.Workbook.Worksheets.Add("CalculateBetaTemplate");
 
-
                     // for cell on row1 col1
                     worksheet.Cells[1, 1].Value = "";
                     worksheet.Cells[1, 2].Value = model.CompanyName != null ? model.CompanyName : "";
                     worksheet.Cells[1, 3].Value = EnumHelper.DescriptionAttr((TargetMarketIndexEnum)model.TargetMarketIndex_Id);
+                    Console.WriteLine("13  12");
                     worksheet.Cells[1, 4].Value = EnumHelper.DescriptionAttr((TargetRiskFreeIndexEnum)model.TargetRiskFreeRate_Id);
-                   
+                   Console.WriteLine("13 ");
                     worksheet.Row(1).Style.Border.Top.Style = ExcelBorderStyle.Hair;
                     worksheet.Row(1).Style.Font.Bold = true;
                     worksheet.Row(1).Style.Font.Size = 12;
@@ -441,16 +448,18 @@ namespace Sowfin.API.Controllers
                     worksheet.Cells[2, 4].Value = "Total Return";
                     DateTime fromDate = Convert.ToDateTime(model.Duration_FromDate); // Convert.ToDateTime("31/12/2018");
                     DateTime toDate = Convert.ToDateTime(model.Duration_toDate); // Convert.ToDateTime("12/09/2019");  
-
+                    Console.WriteLine("14 ");
 
                     if ((model.Frequency_Id != null && model.Frequency_Id == (int)FrequencyEnum.Monthly) || (model.Frequency_Value != null && model.Frequency_Value == "Monthly"))
                     {
+                        Console.WriteLine("15");
                         List<DateTime> monthslist = GetMonthsBetween(fromDate, toDate);
                         for (int i = 0; i < monthslist.Count; i++)
                         {
+                            Console.WriteLine("16");
                             var first = new DateTime(monthslist[i].Date.Year, monthslist[i].Date.Month, 1);
                             var last = first.AddMonths(1).AddDays(-1);
-
+                             Console.WriteLine("17");
                             //remove weekends
                             if(last.DayOfWeek== DayOfWeek.Saturday || last.DayOfWeek == DayOfWeek.Sunday)
                             {
@@ -654,7 +663,6 @@ namespace Sowfin.API.Controllers
                     dt.Rows.Add(drCalc);
                 }
 
-
                 //Convert dt to Base64 string 
                 byte[] fileContents;
                 var formattedCustomObject = (String)null;
@@ -704,29 +712,30 @@ namespace Sowfin.API.Controllers
             return Ok(beta);
         }
 
+
+
         [HttpGet]
         [Route("ExportCalculateBeta/{CalculateBeta_Id}")]
         public ActionResult ExportCalculateBeta(long CalculateBeta_Id)
         {
-            CalculateBeta calculateBetaObj = new CalculateBeta();
-            var formattedCustomObject = (String)null;
-
+        
             try
             {
+                CalculateBeta calculateBetaObj = new CalculateBeta();
+                var formattedCustomObject = (string)null;
                 calculateBetaObj = iCalculateBeta.GetSingle(s => s.Id == CalculateBeta_Id);
-
                 //save data to beta CalculationTable
                 if (calculateBetaObj != null)
                 {
                     formattedCustomObject = !string.IsNullOrEmpty(calculateBetaObj.FileData) ? calculateBetaObj.FileData : "No File Exist";
                 }
+                return Ok(new {result = formattedCustomObject, status = "Success" });
+
             }
             catch (Exception ss)
             {
-                Console.WriteLine(ss.Message);
-                formattedCustomObject = "No file Exist";
+                return BadRequest(ss.Message);
             }
-            return Ok(formattedCustomObject);
         }
 
 
@@ -746,7 +755,7 @@ namespace Sowfin.API.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpDelete]
         [Route("DeleteCostOfCapital/{id}")]
         public ActionResult<Object> DeleteCostOfCapital(long id)
         {
@@ -758,11 +767,11 @@ namespace Sowfin.API.Controllers
             try
             {
                 iCostOfCapital.DeleteWhere(s => s.Id == id);
-                return Ok();
+                return Ok(new { id = id, result = "Successfully deleted" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -771,17 +780,17 @@ namespace Sowfin.API.Controllers
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
-        public ActionResult<Object> ApproveCostOfCapital(string str)
+        public ActionResult<Object> ApproveCostOfCapital([FromBody] ApprovalBody model)
         {
-            ApprovalBody model = JsonConvert.DeserializeObject<ApprovalBody>(str);
+            // ApprovalBody model = JsonConvert.DeserializeObject<ApprovalBody>(str);
             try
             {
                 if (model.ApprovalFlag == 1)
                 {
                     var costOfCapital = iCostOfCapital.FindBy(s => s.UserId == model.UserId).ToArray();
-                    if (costOfCapital != null)
+                    if (costOfCapital != null && costOfCapital.Length > 0)
                     {
                         costOfCapital[0].ApprovalFlag = 1;
                         iCostOfCapital.Update(costOfCapital[0]);
@@ -795,13 +804,14 @@ namespace Sowfin.API.Controllers
                 }
                 else
                 {
-                    return BadRequest();
+                    return BadRequest("Approval flag not set");
                 }
+        
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -816,11 +826,12 @@ namespace Sowfin.API.Controllers
         /// </summary>
         /// <param name="str"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpPost]
         [Route("[action]")]
-        public ActionResult<Object> AddCostOfCapitalSnapshot(string str)
+        public ActionResult<Object> AddCostOfCapitalSnapshot([FromBody] CostOfCapitalSnapShot model)
         {
-            CostOfCapitalSnapShot model = JsonConvert.DeserializeObject<CostOfCapitalSnapShot>(str);
+
+            // CostOfCapitalSnapShot model = JsonConvert.DeserializeObject<CostOfCapitalSnapShot>(str);
             try
             {
                 Snapshots snapshots = new Snapshots
@@ -835,9 +846,9 @@ namespace Sowfin.API.Controllers
                 iSnapshots.Commit();
                 return Ok(new { id = snapshots.Id, result = "Snapshot saved sucessfully" });
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -846,6 +857,7 @@ namespace Sowfin.API.Controllers
         /// </summary>
         /// <param name="UserId"></param>
         /// <returns></returns>
+
         [HttpGet]
         [Route("CostOfCaptialSnapShots/{UserId}")]
         public ActionResult<Object> CostOfCaptialSnapShots(long UserId)
@@ -855,13 +867,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapshots.FindBy(s => s.UserId == UserId && s.SnapShotType == COSTOFCAPITAL);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No Snapshots found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -871,7 +883,7 @@ namespace Sowfin.API.Controllers
         /// <param name="Id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("CostOfCapitalSnapShot/{id}")]
+        [Route("CostOfCapitalSnapShot/{Id}")]
         public ActionResult<Object> CostOfCapitalSnapShot(long Id)
         {
             try
@@ -879,13 +891,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapshots.FindBy(s => s.Id == Id && s.SnapShotType == COSTOFCAPITAL);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No Snapshots found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -911,9 +923,15 @@ namespace Sowfin.API.Controllers
 
 
                 FileInfo file = new FileInfo(Path.Combine(rootFolder, fileName));
-                var formattedCustomObject = (String)null;
+                var formattedCustomObject = (string)null;
 
                 var costOfCapital = iCostOfCapital.FindBy(s => s.UserId == UserId).ToArray();
+                if(costOfCapital.Length == 0)
+                {
+                    return NotFound("No Cost of Capital found");
+                }
+
+
                 using (ExcelPackage package = new ExcelPackage(file))
                 {
 
@@ -1020,6 +1038,8 @@ namespace Sowfin.API.Controllers
                 return BadRequest("Id Not Found ");
             }
         }
+
+
 
         /// <summary>
         /// 

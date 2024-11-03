@@ -83,10 +83,10 @@ namespace Sowfin.API.Controllers
             List<List<double>> unitCostMultiList = ProvideListOfList(2, data.tableData.RevenueVariableCostTier, data.noOfYears, 0);
             List<List<double>> fixedcostMultiList = CombineLists(data.tableData.OtherFixedCost, data.noOfYears); ///This is to combine all the array's of fixed cost
             List<List<double>> capexMultiList = ProvideListOfList(0, data.tableData.CapexDepreciation, data.noOfYears, 0);
-
+            
             var obj = data.tableData.CapexDepreciation;
             List<List<double>> totalDeprciationMultiList = ProvideListOfList(1, data.tableData.CapexDepreciation, data.noOfYears, 0);
-
+            Console.WriteLine("above provideaggreate");
             if (volumeMultiList != null || unitPriceMultiList != null || unitCostMultiList != null || fixedcostMultiList != null ||
               totalDeprciationMultiList != null)
             {
@@ -3566,132 +3566,7 @@ namespace Sowfin.API.Controllers
         //                            ProjectOutputValuesViewModel PrevYearValue = DebtCapacityDatas != null && DebtCapacityDatas.ProjectOutputValuesVM != null && DebtCapacityDatas.ProjectOutputValuesVM.Count > 0 ? DebtCapacityDatas.ProjectOutputValuesVM.Find(x => x.Year == (TempValue.Year - 1)) : null;
 
         //                            value = (SameyearValue != null ? UnitConversion.getBasicValueforNumbers(DebtCapacityDatas.UnitId, SameyearValue.Value) : 0) - (PrevYearValue != null ? UnitConversion.getBasicValueforNumbers(DebtCapacityDatas.UnitId, PrevYearValue.Value) : 0);
-
-        //                            dumyValue.BasicValue = value;
-
-        //                            dumyValue.Value = UnitConversion.getConvertedValueforCurrency(OutputDatasVM.UnitId, dumyValue.BasicValue);
-        //                            // dumyValue.Value = Convert.ToDouble(value.ToString("0.00"));  //assign
-        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
-        //                        }
-        //                        OutputDatasVMList.Add(OutputDatasVM);
-
-        //                        //Free Cash Flow
-        //                        OutputDatasVM = new ProjectOutputDatasViewModel();
-        //                        OutputDatasVM.Id = 0;
-        //                        OutputDatasVM.ProjectId = projectVM.Id;
-        //                        OutputDatasVM.HeaderId = 0;
-        //                        OutputDatasVM.SubHeader = "";
-        //                        OutputDatasVM.LineItem = "Free Cash Flow to Equity";
-        //                        OutputDatasVM.ValueTypeId = (int)ValueTypeEnum.Currency;
-        //                        OutputDatasVM.HasMultiYear = true;
-        //                        OutputDatasVM.Value = null;
-        //                        FCFarray = new List<double>();
-        //                        highunit = UnitConversion.getHigherDenominationUnit(UnleaveredIncomeDatasObj.UnitId, PlusDepreciationDatasObj.UnitId);
-        //                        //Plus: Depreciation
-        //                        OutputDatasVM.ProjectOutputValuesVM = new List<ProjectOutputValuesViewModel>();
-        //                        OutputDatasVM.DefaultUnitId = OutputDatasVM.UnitId = highunit;
-
-        //                        ProjectOutputDatasViewModel NetIncomeDatas = OutputDatasVMList.Find(x => x.LineItem == "Net Income");
-        //                        ProjectOutputDatasViewModel PlusBorrowingDatas = OutputDatasVMList.Find(x => x.LineItem.Contains("Plus: Net Borrowing"));
-
-        //                        foreach (ProjectOutputValuesViewModel TempValue in dumyValueList)
-        //                        {
-        //                            //NetIncomeDatas +PlusDepreciationDatasObj -LessCapexValue
-        //                            dumyValue = new ProjectOutputValuesViewModel();
-        //                            // dumyValue = TempValue;
-        //                            dumyValue.Id = 0; dumyValue.ProjectOutputDatasId = 0;
-        //                            dumyValue.Year = TempValue.Year;
-        //                            double value = 0;
-        //                            ProjectOutputValuesViewModel NetIncomeValue = NetIncomeDatas != null && NetIncomeDatas.ProjectOutputValuesVM != null && NetIncomeDatas.ProjectOutputValuesVM.Count > 0 ? NetIncomeDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-        //                            ProjectOutputValuesViewModel PlusDepreciationValue = PlusDepreciationDatasObj != null && PlusDepreciationDatasObj.ProjectOutputValuesVM != null && PlusDepreciationDatasObj.ProjectOutputValuesVM.Count > 0 ? PlusDepreciationDatasObj.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-        //                            ProjectOutputValuesViewModel LessCapexValue = LessCapexDatasObj != null && LessCapexDatasObj.ProjectOutputValuesVM != null && LessCapexDatasObj.ProjectOutputValuesVM.Count > 0 ? LessCapexDatasObj.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-        //                            ProjectOutputValuesViewModel LessNWCValue = LessNWCDatasObj != null && LessNWCDatasObj.ProjectOutputValuesVM != null && LessNWCDatasObj.ProjectOutputValuesVM.Count > 0 ? LessNWCDatasObj.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-        //                            ProjectOutputValuesViewModel PlusBorrowingValue = PlusBorrowingDatas != null && PlusBorrowingDatas.ProjectOutputValuesVM != null && PlusBorrowingDatas.ProjectOutputValuesVM.Count > 0 ? PlusBorrowingDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-        //                            value = ((NetIncomeValue != null ? UnitConversion.getBasicValueforNumbers(NetIncomeDatas.UnitId, NetIncomeValue.Value) : 0) + (PlusDepreciationValue != null ? UnitConversion.getBasicValueforNumbers(PlusDepreciationDatasObj.UnitId, PlusDepreciationValue.Value) : 0) - (LessCapexValue != null ? UnitConversion.getBasicValueforNumbers(LessCapexDatasObj.UnitId, LessCapexValue.Value) : 0) - (LessNWCValue != null ? UnitConversion.getBasicValueforNumbers(LessNWCDatasObj.UnitId, LessNWCValue.Value) : 0) + (PlusBorrowingValue != null ? UnitConversion.getBasicValueforNumbers(PlusBorrowingDatas.UnitId, PlusBorrowingValue.Value) : 0));
-
-        //                            dumyValue.BasicValue = value;
-        //                            FCFarray.Add(value);
-        //                            dumyValue.Value = UnitConversion.getConvertedValueforCurrency(OutputDatasVM.UnitId, dumyValue.BasicValue);
-        //                            // dumyValue.Value = Convert.ToDouble(value.ToString("0.00"));  //assign
-        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
-        //                        }
-        //                        OutputDatasVMList.Add(OutputDatasVM);
-
-
-        //                        //Discount Factor
-        //                        //formula = 
-        //                        OutputDatasVM = new ProjectOutputDatasViewModel();
-        //                        OutputDatasVM.Id = 0;
-        //                        OutputDatasVM.ProjectId = projectVM.Id;
-        //                        OutputDatasVM.HeaderId = 0;
-        //                        OutputDatasVM.SubHeader = "";
-        //                        OutputDatasVM.LineItem = "Discount Factor";
-        //                        OutputDatasVM.ValueTypeId = (int)ValueTypeEnum.Currency;
-        //                        OutputDatasVM.HasMultiYear = true;
-        //                        OutputDatasVM.Value = null;
-        //                        OutputDatasVM.DefaultUnitId = OutputDatasVM.UnitId = null;
-        //                        var Costofequity = InputDatasList.Find(x => x.LineItem.Contains("Cost of Equity"));
-
-        //                        double TValue = 1 + (Costofequity != null && Costofequity.Value != null ? Convert.ToDouble(Costofequity.Value) / 100 : 0);
-        //                        int i = 0;
-        //                        OutputDatasVM.ProjectOutputValuesVM = new List<ProjectOutputValuesViewModel>();
-
-        //                        foreach (ProjectOutputValuesViewModel TempValue in dumyValueList)
-        //                        {
-        //                            dumyValue = new ProjectOutputValuesViewModel();
-        //                            // dumyValue = TempValue;
-        //                            dumyValue.Id = 0; dumyValue.ProjectOutputDatasId = 0;
-        //                            dumyValue.Year = TempValue.Year;
-        //                            double value = 0;
-        //                            value = Math.Pow(TValue, i);
-        //                            i++;
-        //                            dumyValue.BasicValue = value;
-        //                            dumyValue.Value = dumyValue.BasicValue;
-        //                            //dumyValue.Value = Convert.ToDouble(value.ToString("0.00")); //assign
-        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
-        //                        }
-        //                        OutputDatasVMList.Add(OutputDatasVM);
-
-        //                        //Discounted Cash Flow
-        //                        //formula = Free Cash flow/Discount Factor
-        //                        OutputDatasVM = new ProjectOutputDatasViewModel();
-        //                        OutputDatasVM.Id = 0;
-        //                        OutputDatasVM.ProjectId = projectVM.Id;
-        //                        OutputDatasVM.HeaderId = 0;
-        //                        OutputDatasVM.SubHeader = "";
-        //                        OutputDatasVM.LineItem = "Discounted Cash Flow";
-        //                        OutputDatasVM.ValueTypeId = (int)ValueTypeEnum.Currency;
-        //                        OutputDatasVM.HasMultiYear = true;
-        //                        OutputDatasVM.Value = null;
-        //                        ProjectOutputDatasViewModel FreeCashFlowtoEquityDatas = OutputDatasVMList.Find(x => x.LineItem.Contains("Free Cash Flow to Equity"));
-        //                        ProjectOutputDatasViewModel DiscountFactorDatas = OutputDatasVMList.Find(x => x.LineItem == "Discount Factor");
-        //                        OutputDatasVM.DefaultUnitId = OutputDatasVM.UnitId = FreeCashFlowtoEquityDatas != null ? FreeCashFlowtoEquityDatas.UnitId : null;
-        //                        double NPv = 0;
-        //                        OutputDatasVM.ProjectOutputValuesVM = new List<ProjectOutputValuesViewModel>();
-
-        //                        foreach (ProjectOutputValuesViewModel TempValue in dumyValueList)
-        //                        {
-
-        //                            dumyValue = new ProjectOutputValuesViewModel();
-        //                            // dumyValue = TempValue;
-        //                            dumyValue.Id = 0; dumyValue.ProjectOutputDatasId = 0;
-        //                            dumyValue.Year = TempValue.Year;
-        //                            double value = 0;
-        //                            ProjectOutputValuesViewModel FreeCashValue = FreeCashFlowtoEquityDatas != null && FreeCashFlowtoEquityDatas.ProjectOutputValuesVM != null && FreeCashFlowtoEquityDatas.ProjectOutputValuesVM.Count > 0 ? FreeCashFlowtoEquityDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-        //                            ProjectOutputValuesViewModel DiscountFactorValues = DiscountFactorDatas != null && DiscountFactorDatas.ProjectOutputValuesVM != null && DiscountFactorDatas.ProjectOutputValuesVM.Count > 0 ? DiscountFactorDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
-
-        //                            value = (FreeCashValue != null ? UnitConversion.getBasicValueforNumbers(FreeCashFlowtoEquityDatas.UnitId, FreeCashValue.Value) : 0) / (DiscountFactorValues != null ? UnitConversion.getBasicValueforNumbers(DiscountFactorDatas.UnitId, DiscountFactorValues.Value) : 0);
-
-
-        //                            NPv = NPv + value;
-        //                            dumyValue.BasicValue = value;
-        //                            dumyValue.Value = UnitConversion.getConvertedValueforCurrency(OutputDatasVM.UnitId, dumyValue.BasicValue);
-        //                            // dumyValue.Value = Convert.ToDouble(value.ToString("0.00")); //assign
-        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
-        //                        }
-        //                        OutputDatasVMList.Add(OutputDatasVM);
-
-        //                        //Net Present Value
+                    //Net Present Value
         //                        //formula = 
         //                        OutputDatasVM = new ProjectOutputDatasViewModel();
         //                        OutputDatasVM.Id = 0;
@@ -4488,6 +4363,131 @@ namespace Sowfin.API.Controllers
         //    }
         //    return OutputDatasVMList;
         //}
+        //                            dumyValue.BasicValue = value;
+
+        //                            dumyValue.Value = UnitConversion.getConvertedValueforCurrency(OutputDatasVM.UnitId, dumyValue.BasicValue);
+        //                            // dumyValue.Value = Convert.ToDouble(value.ToString("0.00"));  //assign
+        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
+        //                        }
+        //                        OutputDatasVMList.Add(OutputDatasVM);
+
+        //                        //Free Cash Flow
+        //                        OutputDatasVM = new ProjectOutputDatasViewModel();
+        //                        OutputDatasVM.Id = 0;
+        //                        OutputDatasVM.ProjectId = projectVM.Id;
+        //                        OutputDatasVM.HeaderId = 0;
+        //                        OutputDatasVM.SubHeader = "";
+        //                        OutputDatasVM.LineItem = "Free Cash Flow to Equity";
+        //                        OutputDatasVM.ValueTypeId = (int)ValueTypeEnum.Currency;
+        //                        OutputDatasVM.HasMultiYear = true;
+        //                        OutputDatasVM.Value = null;
+        //                        FCFarray = new List<double>();
+        //                        highunit = UnitConversion.getHigherDenominationUnit(UnleaveredIncomeDatasObj.UnitId, PlusDepreciationDatasObj.UnitId);
+        //                        //Plus: Depreciation
+        //                        OutputDatasVM.ProjectOutputValuesVM = new List<ProjectOutputValuesViewModel>();
+        //                        OutputDatasVM.DefaultUnitId = OutputDatasVM.UnitId = highunit;
+
+        //                        ProjectOutputDatasViewModel NetIncomeDatas = OutputDatasVMList.Find(x => x.LineItem == "Net Income");
+        //                        ProjectOutputDatasViewModel PlusBorrowingDatas = OutputDatasVMList.Find(x => x.LineItem.Contains("Plus: Net Borrowing"));
+
+        //                        foreach (ProjectOutputValuesViewModel TempValue in dumyValueList)
+        //                        {
+        //                            //NetIncomeDatas +PlusDepreciationDatasObj -LessCapexValue
+        //                            dumyValue = new ProjectOutputValuesViewModel();
+        //                            // dumyValue = TempValue;
+        //                            dumyValue.Id = 0; dumyValue.ProjectOutputDatasId = 0;
+        //                            dumyValue.Year = TempValue.Year;
+        //                            double value = 0;
+        //                            ProjectOutputValuesViewModel NetIncomeValue = NetIncomeDatas != null && NetIncomeDatas.ProjectOutputValuesVM != null && NetIncomeDatas.ProjectOutputValuesVM.Count > 0 ? NetIncomeDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+        //                            ProjectOutputValuesViewModel PlusDepreciationValue = PlusDepreciationDatasObj != null && PlusDepreciationDatasObj.ProjectOutputValuesVM != null && PlusDepreciationDatasObj.ProjectOutputValuesVM.Count > 0 ? PlusDepreciationDatasObj.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+        //                            ProjectOutputValuesViewModel LessCapexValue = LessCapexDatasObj != null && LessCapexDatasObj.ProjectOutputValuesVM != null && LessCapexDatasObj.ProjectOutputValuesVM.Count > 0 ? LessCapexDatasObj.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+        //                            ProjectOutputValuesViewModel LessNWCValue = LessNWCDatasObj != null && LessNWCDatasObj.ProjectOutputValuesVM != null && LessNWCDatasObj.ProjectOutputValuesVM.Count > 0 ? LessNWCDatasObj.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+        //                            ProjectOutputValuesViewModel PlusBorrowingValue = PlusBorrowingDatas != null && PlusBorrowingDatas.ProjectOutputValuesVM != null && PlusBorrowingDatas.ProjectOutputValuesVM.Count > 0 ? PlusBorrowingDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+        //                            value = ((NetIncomeValue != null ? UnitConversion.getBasicValueforNumbers(NetIncomeDatas.UnitId, NetIncomeValue.Value) : 0) + (PlusDepreciationValue != null ? UnitConversion.getBasicValueforNumbers(PlusDepreciationDatasObj.UnitId, PlusDepreciationValue.Value) : 0) - (LessCapexValue != null ? UnitConversion.getBasicValueforNumbers(LessCapexDatasObj.UnitId, LessCapexValue.Value) : 0) - (LessNWCValue != null ? UnitConversion.getBasicValueforNumbers(LessNWCDatasObj.UnitId, LessNWCValue.Value) : 0) + (PlusBorrowingValue != null ? UnitConversion.getBasicValueforNumbers(PlusBorrowingDatas.UnitId, PlusBorrowingValue.Value) : 0));
+
+        //                            dumyValue.BasicValue = value;
+        //                            FCFarray.Add(value);
+        //                            dumyValue.Value = UnitConversion.getConvertedValueforCurrency(OutputDatasVM.UnitId, dumyValue.BasicValue);
+        //                            // dumyValue.Value = Convert.ToDouble(value.ToString("0.00"));  //assign
+        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
+        //                        }
+        //                        OutputDatasVMList.Add(OutputDatasVM);
+
+
+        //                        //Discount Factor
+        //                        //formula = 
+        //                        OutputDatasVM = new ProjectOutputDatasViewModel();
+        //                        OutputDatasVM.Id = 0;
+        //                        OutputDatasVM.ProjectId = projectVM.Id;
+        //                        OutputDatasVM.HeaderId = 0;
+        //                        OutputDatasVM.SubHeader = "";
+        //                        OutputDatasVM.LineItem = "Discount Factor";
+        //                        OutputDatasVM.ValueTypeId = (int)ValueTypeEnum.Currency;
+        //                        OutputDatasVM.HasMultiYear = true;
+        //                        OutputDatasVM.Value = null;
+        //                        OutputDatasVM.DefaultUnitId = OutputDatasVM.UnitId = null;
+        //                        var Costofequity = InputDatasList.Find(x => x.LineItem.Contains("Cost of Equity"));
+
+        //                        double TValue = 1 + (Costofequity != null && Costofequity.Value != null ? Convert.ToDouble(Costofequity.Value) / 100 : 0);
+        //                        int i = 0;
+        //                        OutputDatasVM.ProjectOutputValuesVM = new List<ProjectOutputValuesViewModel>();
+
+        //                        foreach (ProjectOutputValuesViewModel TempValue in dumyValueList)
+        //                        {
+        //                            dumyValue = new ProjectOutputValuesViewModel();
+        //                            // dumyValue = TempValue;
+        //                            dumyValue.Id = 0; dumyValue.ProjectOutputDatasId = 0;
+        //                            dumyValue.Year = TempValue.Year;
+        //                            double value = 0;
+        //                            value = Math.Pow(TValue, i);
+        //                            i++;
+        //                            dumyValue.BasicValue = value;
+        //                            dumyValue.Value = dumyValue.BasicValue;
+        //                            //dumyValue.Value = Convert.ToDouble(value.ToString("0.00")); //assign
+        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
+        //                        }
+        //                        OutputDatasVMList.Add(OutputDatasVM);
+
+        //                        //Discounted Cash Flow
+        //                        //formula = Free Cash flow/Discount Factor
+        //                        OutputDatasVM = new ProjectOutputDatasViewModel();
+        //                        OutputDatasVM.Id = 0;
+        //                        OutputDatasVM.ProjectId = projectVM.Id;
+        //                        OutputDatasVM.HeaderId = 0;
+        //                        OutputDatasVM.SubHeader = "";
+        //                        OutputDatasVM.LineItem = "Discounted Cash Flow";
+        //                        OutputDatasVM.ValueTypeId = (int)ValueTypeEnum.Currency;
+        //                        OutputDatasVM.HasMultiYear = true;
+        //                        OutputDatasVM.Value = null;
+        //                        ProjectOutputDatasViewModel FreeCashFlowtoEquityDatas = OutputDatasVMList.Find(x => x.LineItem.Contains("Free Cash Flow to Equity"));
+        //                        ProjectOutputDatasViewModel DiscountFactorDatas = OutputDatasVMList.Find(x => x.LineItem == "Discount Factor");
+        //                        OutputDatasVM.DefaultUnitId = OutputDatasVM.UnitId = FreeCashFlowtoEquityDatas != null ? FreeCashFlowtoEquityDatas.UnitId : null;
+        //                        double NPv = 0;
+        //                        OutputDatasVM.ProjectOutputValuesVM = new List<ProjectOutputValuesViewModel>();
+
+        //                        foreach (ProjectOutputValuesViewModel TempValue in dumyValueList)
+        //                        {
+
+        //                            dumyValue = new ProjectOutputValuesViewModel();
+        //                            // dumyValue = TempValue;
+        //                            dumyValue.Id = 0; dumyValue.ProjectOutputDatasId = 0;
+        //                            dumyValue.Year = TempValue.Year;
+        //                            double value = 0;
+        //                            ProjectOutputValuesViewModel FreeCashValue = FreeCashFlowtoEquityDatas != null && FreeCashFlowtoEquityDatas.ProjectOutputValuesVM != null && FreeCashFlowtoEquityDatas.ProjectOutputValuesVM.Count > 0 ? FreeCashFlowtoEquityDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+        //                            ProjectOutputValuesViewModel DiscountFactorValues = DiscountFactorDatas != null && DiscountFactorDatas.ProjectOutputValuesVM != null && DiscountFactorDatas.ProjectOutputValuesVM.Count > 0 ? DiscountFactorDatas.ProjectOutputValuesVM.Find(x => x.Year == TempValue.Year) : null;
+
+        //                            value = (FreeCashValue != null ? UnitConversion.getBasicValueforNumbers(FreeCashFlowtoEquityDatas.UnitId, FreeCashValue.Value) : 0) / (DiscountFactorValues != null ? UnitConversion.getBasicValueforNumbers(DiscountFactorDatas.UnitId, DiscountFactorValues.Value) : 0);
+
+
+        //                            NPv = NPv + value;
+        //                            dumyValue.BasicValue = value;
+        //                            dumyValue.Value = UnitConversion.getConvertedValueforCurrency(OutputDatasVM.UnitId, dumyValue.BasicValue);
+        //                            // dumyValue.Value = Convert.ToDouble(value.ToString("0.00")); //assign
+        //                            OutputDatasVM.ProjectOutputValuesVM.Add(dumyValue);
+        //                        }
+        //                        OutputDatasVMList.Add(OutputDatasVM);
+
+        //    
 
 
         private List<ProjectOutputDatasViewModel> GetProjectOutput(ProjectsViewModel projectVM)
@@ -6778,8 +6778,16 @@ namespace Sowfin.API.Controllers
             object[][] summaryOutput = null;
            // string lastCell = null;
             string rootFolder = _hostingEnvironment.WebRootPath;
+            if (string.IsNullOrEmpty(rootFolder))
+            {
+                return NotFound("WebRootPath is not set.");
+            }
             string fileName = @"capital_budgeting.xlsx";
             FileInfo file = new FileInfo(Path.Combine(rootFolder, fileName));
+            if (!file.Exists)
+            {
+                return NotFound($"The file {fileName} does not exist at path {rootFolder}");
+            }
             var formattedCustomObject = (String)null;
             double capexDepPerChange = 1;
           
@@ -6868,8 +6876,11 @@ namespace Sowfin.API.Controllers
                 List<ProjectInputDatasViewModel> InputDatasList = new List<ProjectInputDatasViewModel>();
                 InputDatasList = result.ProjectInputDatasVM;
 
-                wsCapitalBudgeting = ReturnCellStyle("Total", 2, (int)(result.NoOfYears + 3), wsCapitalBudgeting, 0);
-                wsCapitalBudgeting = ReturnCellStyle("Average", 2, (int)(result.NoOfYears + 4), wsCapitalBudgeting, 0);
+                int noOfYears = result.NoOfYears ?? 0; // or a default value that makes sense for your logic
+
+
+                wsCapitalBudgeting = ReturnCellStyle("Total", 2, (int)(noOfYears + 3), wsCapitalBudgeting, 0);
+                wsCapitalBudgeting = ReturnCellStyle("Average", 2, (int)(noOfYears + 4), wsCapitalBudgeting, 0);
 
                 List<string> keys = new List<string>();
                 List<List<double>> values = new List<List<double>>();
@@ -6878,8 +6889,16 @@ namespace Sowfin.API.Controllers
                 List<List<List<string>>> listOfCellsRevenue1 = new List<List<List<string>>>();
                 List<List<List<string>>> listOfCellsRevenue2 = new List<List<List<string>>>();
 
-                List<ProjectInputDatasViewModel> RevenueVariableCostTier = new List<ProjectInputDatasViewModel>();           
-                RevenueVariableCostTier = InputDatasList.FindAll(x => x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
+                List<ProjectInputDatasViewModel> RevenueVariableCostTier = new List<ProjectInputDatasViewModel>();
+
+                if (InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    RevenueVariableCostTier = InputDatasList.FindAll(x => x.SubHeader != null && x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
+                }
+        
+
+
+                // RevenueVariableCostTier = InputDatasList.FindAll(x => x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
                
                 int CountOfRevenueVariableCostTier = 0;
                 CountOfRevenueVariableCostTier = (RevenueVariableCostTier.Count) / 3;
@@ -6910,7 +6929,10 @@ namespace Sowfin.API.Controllers
                 List<List<List<string>>> listOfCellsFixed = new List<List<List<string>>>();
                 List<ProjectInputDatasViewModel> OtherFixedCost = new List<ProjectInputDatasViewModel>();
                 //OtherFixedCost = InputDatasList.FindAll(x => x.SubHeader.Contains("Other Fixed Cost")).ToList();
-                OtherFixedCost = InputDatasList.FindAll(x => x.SubHeader.Contains("Other Fixed Cost")).OrderByDescending(i => i.LineItem).ToList();
+                if(InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    OtherFixedCost = InputDatasList.FindAll(x =>x.SubHeader != null &&  x.SubHeader.Contains("Other Fixed Cost")).OrderByDescending(i => i.LineItem).ToList();
+                }
                 
                 if (Flag == 2 && str != null && OtherFixedCost != null)
                 {
@@ -6929,7 +6951,11 @@ namespace Sowfin.API.Controllers
                 List<List<List<string>>> listOfCellsCapex2 = new List<List<List<string>>>();
 
                 List<ProjectInputDatasViewModel> CapexDepreciation = new List<ProjectInputDatasViewModel>();
-                CapexDepreciation = InputDatasList.FindAll(x => x.SubHeader.Contains("Capex & Depreciation")).ToList();
+                if(InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    CapexDepreciation = InputDatasList.FindAll(x => x.SubHeader != null && x.SubHeader.Contains("Capex & Depreciation")).ToList();
+                }
+                // CapexDepreciation = InputDatasList.FindAll(x => x.SubHeader.Contains("Capex & Depreciation")).ToList();
 
                 int CountOfCapexDepreciation = 0;
 
@@ -6967,7 +6993,11 @@ namespace Sowfin.API.Controllers
                 List<List<List<string>>> listOfCellsNWC = new List<List<List<string>>>();
 
                 List<ProjectInputDatasViewModel> WorkingCapital = new List<ProjectInputDatasViewModel>();
-                WorkingCapital = InputDatasList.FindAll(x => x.SubHeader.Contains("Working Capital")).ToList();
+                if(InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    WorkingCapital = InputDatasList.FindAll(x => x.SubHeader != null && x.SubHeader.Contains("Working Capital")).ToList();
+                }
+                // WorkingCapital = InputDatasList.FindAll(x => x.SubHeader.Contains("Working Capital")).ToList();
 
                 wsCapitalBudgeting = ExcelGeneration_New(WorkingCapital, "Working Capital", wsCapitalBudgeting, 3, row_count, volChangePerc,
                         unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsNWC);
@@ -6998,9 +7028,9 @@ namespace Sowfin.API.Controllers
                 var CostOfEquityAddColumn = "";
                 var IntetrestCoverageRatioAddColumn = "";
                 var ProjectWACCAddColumn = "";
-
+                Console.WriteLine("Flag : " + Flag);
                 // Valuation Technique
-                if (project.ValuationTechniqueId == 1)
+                if (project != null && project.ValuationTechniqueId == 1)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7032,7 +7062,7 @@ namespace Sowfin.API.Controllers
 
                     row_count = (row_count + 2);                  
                 }
-                else if (project.ValuationTechniqueId == 2)
+                else if (project != null && project.ValuationTechniqueId == 2)
                 {                
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7080,7 +7110,7 @@ namespace Sowfin.API.Controllers
 
                     row_count = (row_count + 4);
                 }
-                else if (project.ValuationTechniqueId == 3)
+                else if (project != null && project.ValuationTechniqueId == 3)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7136,7 +7166,7 @@ namespace Sowfin.API.Controllers
 
                     row_count = (row_count + 5);
                 }
-                else if (project.ValuationTechniqueId == 4)
+                else if (project != null && project.ValuationTechniqueId == 4)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7250,7 +7280,7 @@ namespace Sowfin.API.Controllers
                     row_count = (row_count + 5);
 
                 }
-                else if (project.ValuationTechniqueId == 5)
+                else if (project != null && project.ValuationTechniqueId == 5)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7298,7 +7328,7 @@ namespace Sowfin.API.Controllers
 
                     row_count = (row_count + 4);
                 }
-                else if (project.ValuationTechniqueId == 6)
+                else if (project != null && project.ValuationTechniqueId == 6)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7344,7 +7374,7 @@ namespace Sowfin.API.Controllers
 
                     row_count = (row_count + 2);
                 }
-                else if (project.ValuationTechniqueId == 7)
+                else if (project != null && project.ValuationTechniqueId == 7)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7400,7 +7430,7 @@ namespace Sowfin.API.Controllers
 
                     row_count = (row_count + 5);
                 }
-                else if (project.ValuationTechniqueId == 8)
+                else if (project != null && project.ValuationTechniqueId == 8)
                 {
                     //wsCapitalBudgeting.Cells[(row_count), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
                     //wsCapitalBudgeting.Cells[(row_count + 1), 2].Style.HorizontalAlignment = OfficeOpenXml.Style.ExcelHorizontalAlignment.Left;
@@ -7491,7 +7521,19 @@ namespace Sowfin.API.Controllers
                         }
                     }
 
-                string[,] addArray2D = new string[result.ProjectSummaryDatasVM.Count, result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM.Count + 1];
+                string[,] addArray2D = new string[1, 1];
+
+                if (result.ProjectSummaryDatasVM != null && result.ProjectSummaryDatasVM.Count > 0 &&
+                    result.ProjectSummaryDatasVM[0] != null && result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM != null)
+                {
+                    addArray2D = new string[result.ProjectSummaryDatasVM.Count, result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM.Count + 1];
+                }
+
+                                
+
+                // string[,] addArray2D = new string[result.ProjectSummaryDatasVM.Count, result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM.Count + 1];
+
+            if (result != null && result.ProjectSummaryDatasVM != null && result.ProjectSummaryDatasVM.Count > 0){
 
                 for (int o = 0; o < result.ProjectSummaryDatasVM.Count; o++)
                 {
@@ -7628,6 +7670,7 @@ namespace Sowfin.API.Controllers
                         addArray2D[o, p+1] = Convert.ToString(addr.ToString());
                     }
                 }
+            }
 
                 List<string[,]> addArray2DList = new List<string[,]>();
                 addArray2DList.Add(addArray2D);
@@ -8022,33 +8065,7 @@ namespace Sowfin.API.Controllers
                                                    string ProjectWACCAddColumn)
         {
 
-            // List<ProjectsViewModel> projectVM = input.ProjectVM;
-            // ExcelWorksheet wsCapitalBudgeting = input.WsCapitalBudgeting;
-            // int OutPutRowcount = input.OutPutRowcount;
-            // List<List<List<string>>> list = input.List;
-            // List<string> salesResult = input.SalesResult;
-            // List<string> cogsResult = input.CogsResult;
-            // List<string> GrossMarginResult = input.GrossMarginResult;
-            // List<List<List<string>>> OtherFixedCostlist = input.OtherFixedCostlist;
-            // List<string> OperatingIncomeResult = input.OperatingIncomeResult;
-            // List<string> FreeCashFlowResult = input.FreeCashFlowResult;
-            // List<string[,]> addArray2DList = input.AddArray2DList;
-            // string marginalTaxAddColumn = input.MarginalTaxAddColumn;
-            // string discountRateAddColumn = input.DiscountRateAddColumn;
-            // List<List<List<string>>> listOfCellsNWC = input.ListOfCellsNWC;
-            // List<List<List<string>>> listOfCellsCapex = input.ListOfCellsCapex;
-            // List<List<List<string>>> listOfCellsCapex1 = input.ListOfCellsCapex1;
-            // List<List<List<string>>> listOfCellsCapex2 = input.ListOfCellsCapex2;
-            // int CountOfCapexDepreciation = input.CountOfCapexDepreciation;
-            // List<List<List<string>>> listOfFixedSchedule = input.ListOfFixedSchedule;
-            // List<string> yearCoutList = input.YearCoutList;
-            // string WeightedAverageCostOfCapitalAddColumn = input.WeightedAverageCostOfCapitalAddColumn;
-            // string DVRatioAddColumn = input.DVRatioAddColumn;
-            // string CostOfDebtAddColumn = input.CostOfDebtAddColumn;
-            // string CostOfEquityAddColumn = input.CostOfEquityAddColumn;
-            // string UnleveredCostOfCapitalAddColumn = input.UnleveredCostOfCapitalAddColumn;
-            // string IntetrestCoverageRatioAddColumn = input.IntetrestCoverageRatioAddColumn;
-            // string ProjectWACCAddColumn = input.ProjectWACCAddColumn;
+          
 
             List<string> salesCellList = new List<string>();
             List<string> nwcCellList = new List<string>();
@@ -8059,6 +8076,13 @@ namespace Sowfin.API.Controllers
             int NPVcount = 0; // For Valuation Technique 5
             int Unleveredcount1 = 0; // For Valuation Technique 5
             int NPVcount1 = 0; // For Valuation Technique 5
+
+                if (projectVM == null || projectVM.Count == 0 || projectVM[0] == null || projectVM[0].ProjectSummaryDatasVM == null)
+                {
+                    // Return the original worksheet or null if projectVM or its properties are not properly initialized
+                    return wsCapitalBudgeting; // or return null;
+                }
+
 
             for (int o = 0; o < projectVM[0].ProjectSummaryDatasVM.Count; o++)
             {
@@ -9516,8 +9540,17 @@ namespace Sowfin.API.Controllers
             // {
             //     capitalBudgeting.Add(iSowfinCache.Get<CapitalBudgeting>(redisKey));
             // }
+
+                TableData tableData = new TableData(); // or return null if needed
+
            
-                TableData tableData = JsonConvert.DeserializeObject<TableData>(capitalBudgeting[0].RawTableData);
+                // TableData tableData = JsonConvert.DeserializeObject<TableData>(capitalBudgeting[0].RawTableData);
+                if (capitalBudgeting != null && capitalBudgeting.Count > 0 && capitalBudgeting[0].RawTableData != null)
+                {
+                     tableData = JsonConvert.DeserializeObject<TableData>(capitalBudgeting[0].RawTableData);
+                }
+
+                
             
             //EvalSummaryOutput evalSummaryOutput = JsonConvert.DeserializeObject<EvalSummaryOutput>(capitalBudgeting[0].SummaryOutput);
 
@@ -9542,6 +9575,7 @@ namespace Sowfin.API.Controllers
                 
                 ExcelAddress yearCountAdd = null;
                 List<string> yearCoutList = new List<string>();
+         if (capitalBudgeting != null && capitalBudgeting.Count > 0 && capitalBudgeting[0] != null){
 
                 for (var i = 0; i < capitalBudgeting[0].NoOfYears; i++)
                 //for (var i = 0; i < result.NoOfYears; i++)
@@ -9558,16 +9592,27 @@ namespace Sowfin.API.Controllers
 
                     yearCoutList.Add(yearCountAdd.ToString());
                 }
+         }
 
                 List<ProjectInputDatasViewModel> InputDatasList = new List<ProjectInputDatasViewModel>();
                 InputDatasList = result.ProjectInputDatasVM;
 
                 // TODO - 
+                if (tableData != null && 
+                    tableData.RevenueVariableCostTier != null && 
+                    tableData.RevenueVariableCostTier.Count() > 0 && 
+                    tableData.RevenueVariableCostTier[0] != null && 
+                    tableData.RevenueVariableCostTier[0].Count() > 0 && 
+                    tableData.RevenueVariableCostTier[0][0] != null &&
+                    wsCapitalBudgeting != null)
+                {
                 wsCapitalBudgeting = ReturnCellStyle("Total", 2, (tableData.RevenueVariableCostTier[0][0].Length + 2), wsCapitalBudgeting, 0);
                 wsCapitalBudgeting = ReturnCellStyle("Average", 2, (tableData.RevenueVariableCostTier[0][0].Length + 3), wsCapitalBudgeting, 0);
 
                 wsCapitalBudgeting = ReturnCellStyle("Total", 2, (int)(result.NoOfYears + 3), wsCapitalBudgeting, 0);
                 wsCapitalBudgeting = ReturnCellStyle("Average", 2, (int)(result.NoOfYears + 4), wsCapitalBudgeting, 0);
+
+                }
 
                 List<string> keys = new List<string>();
                 List<List<double>> values = new List<List<double>>();
@@ -9576,10 +9621,32 @@ namespace Sowfin.API.Controllers
 
                 List<ProjectInputDatasViewModel> RevenueVariableCostTier = new List<ProjectInputDatasViewModel>();
                 // VolumeList = InputDatasList.FindAll(x => x.LineItem == "Volume" && x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
-                RevenueVariableCostTier = InputDatasList.FindAll(x => x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
 
-                wsCapitalBudgeting = ExcelGeneration(tableData.RevenueVariableCostTier, "Revenue", wsCapitalBudgeting, 3, row_count, volChangePerc,
-                    unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsRevenue);
+                if (InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    RevenueVariableCostTier = InputDatasList.FindAll(x => x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
+                }
+                // RevenueVariableCostTier = InputDatasList.FindAll(x => x.SubHeader.Contains("Revenue & Variable Cost")).ToList();
+
+            if (tableData != null && tableData.RevenueVariableCostTier != null && wsCapitalBudgeting != null)
+            {
+                wsCapitalBudgeting = ExcelGeneration(
+                    tableData.RevenueVariableCostTier,
+                    "Revenue",
+                    wsCapitalBudgeting,
+                    3,
+                    row_count,
+                    volChangePerc,
+                    unitPricePerChange,
+                    unitCostPerChange,
+                    capexDepPerChange,
+                    out row_count,
+                    out listOfCellsRevenue
+                );
+            }
+
+                // wsCapitalBudgeting = ExcelGeneration(tableData.RevenueVariableCostTier, "Revenue", wsCapitalBudgeting, 3, row_count, volChangePerc,
+                //     unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsRevenue);
            
                 int CountOfRevenueVariableCostTier = 0;
                 CountOfRevenueVariableCostTier = (RevenueVariableCostTier.Count) / 3;
@@ -9600,17 +9667,21 @@ namespace Sowfin.API.Controllers
 
                 List<List<List<string>>> listOfCellsFixed = new List<List<List<string>>>();
                 List<ProjectInputDatasViewModel> OtherFixedCost = new List<ProjectInputDatasViewModel>();
-                OtherFixedCost = InputDatasList.FindAll(x => x.SubHeader.Contains("Other Fixed Cost")).ToList();
+                if(InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    OtherFixedCost = InputDatasList.FindAll(x => x.SubHeader.Contains("Other Fixed Cost")).ToList();
+                }
+                // OtherFixedCost = InputDatasList.FindAll(x => x.SubHeader.Contains("Other Fixed Cost")).ToList();
 
                 //if (Flag == 2 && str != null && tableData.OtherFixedCost != null)
-                if (Flag == 2 && str != null && OtherFixedCost != null)
+                if (Flag == 2 && str != null && OtherFixedCost != null && OtherFixedCost.Count > 0)
                 {
                     // TODO ---- 
                     //wsCapitalBudgeting = ExcelGeneration(chageFixedCost, "Fixed Cost", wsCapitalBudgeting, 3, row_count, volChangePerc, unitPricePerChange,
                     //    unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsFixed);                  
                 }
                 // else if (tableData.OtherFixedCost != null)
-                else if (OtherFixedCost != null)
+                else if (OtherFixedCost != null && tableData != null && tableData.RevenueVariableCostTier != null && wsCapitalBudgeting != null )
                 {
                     wsCapitalBudgeting = ExcelGeneration(tableData.OtherFixedCost, "Fixed Cost", wsCapitalBudgeting, 3, row_count, volChangePerc, unitPricePerChange,
                         unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsFixed);
@@ -9621,7 +9692,10 @@ namespace Sowfin.API.Controllers
                 List<List<List<string>>> listOfCellsCapex = new List<List<List<string>>>();
 
                 List<ProjectInputDatasViewModel> CapexDepreciation = new List<ProjectInputDatasViewModel>();
-                CapexDepreciation = InputDatasList.FindAll(x => x.SubHeader.Contains("Capex & Depreciation")).ToList();
+                if(InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    CapexDepreciation = InputDatasList.FindAll(x =>  x.SubHeader != null && x.SubHeader.Contains("Capex & Depreciation")).ToList();
+                }
 
                 // if (Flag == 2 && str != null && tableData.CapexDepreciation != null)
                 if (Flag == 2 && str != null && CapexDepreciation != null)
@@ -9647,18 +9721,27 @@ namespace Sowfin.API.Controllers
                         //unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsCapex);
                     }
 
-                    wsCapitalBudgeting = ExcelGeneration(tableData.CapexDepreciation, "Capex&Depreciation", wsCapitalBudgeting, 3, row_count, volChangePerc,
+                    if( tableData != null && tableData.RevenueVariableCostTier != null && wsCapitalBudgeting != null){
+                         wsCapitalBudgeting = ExcelGeneration(tableData.CapexDepreciation, "Capex&Depreciation", wsCapitalBudgeting, 3, row_count, volChangePerc,
                         unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsCapex);
+                    }
+
+                  
                     //wsCapitalBudgeting = ExcelGeneration_New(CapexDepreciation, "Capex & Depreciation", wsCapitalBudgeting, 3, row_count, volChangePerc,
                     //    unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out listOfCellsCapex);
                 }
                 List<string> nwcAdd = new List<string>();
 
                 List<ProjectInputDatasViewModel> WorkingCapital = new List<ProjectInputDatasViewModel>();
-                WorkingCapital = InputDatasList.FindAll(x => x.SubHeader.Contains("Working Capital")).ToList();
+                if(InputDatasList != null && InputDatasList.Count > 0)
+                {
+                    WorkingCapital = InputDatasList.FindAll(x => x.SubHeader.Contains("Working Capital")).ToList();
+                }
 
                 // TODO ---- 
+                if (tableData != null && tableData.WorkingCapital != null && wsCapitalBudgeting != null){
                  wsCapitalBudgeting = ExcelGenerationEx(tableData.WorkingCapital, "Working Capital", wsCapitalBudgeting, 3, row_count, out row_count, out nwcAdd);
+            }
                 //wsCapitalBudgeting = ExcelGeneration1(WorkingCapital, "Working Capital", wsCapitalBudgeting, 3, row_count, volChangePerc,
                 //        unitPricePerChange, unitCostPerChange, capexDepPerChange, out row_count, out nwcAdd);
                 //wsCapitalBudgeting = ExcelGeneration_New(WorkingCapital, "Working Capital", wsCapitalBudgeting, 3, row_count, volChangePerc,
@@ -9680,14 +9763,41 @@ namespace Sowfin.API.Controllers
                 }
                 else
                 {
+
+                    if (capitalBudgeting != null && capitalBudgeting.Count > 0)
+                {
                     wsCapitalBudgeting.Cells[(5 + row_count), 2].Value = capitalBudgeting[0].MarginalTaxRate;
                     wsCapitalBudgeting.Cells[(5 + row_count + 1), 2].Value = capitalBudgeting[0].DiscountRate;
+                }
+                
 
-                    var MarginalTaxDatas = InputDatasList.Find(x => x.LineItem.Contains("Marginal Tax rate"));
+    // Check if InputDatasList is not null or empty before finding elements
+            if (InputDatasList != null && InputDatasList.Count > 0)
+            {
+                var MarginalTaxDatas = InputDatasList.Find(x => x.LineItem.Contains("Marginal Tax rate"));
+                if (MarginalTaxDatas != null)
+                {
                     wsCapitalBudgeting.Cells[(row_count), 2].Value = MarginalTaxDatas.Value;
+                }
+            
 
-                    var DiscountRateDatas = InputDatasList.Find(x => x.LineItem.Contains("WACC"));
+                var DiscountRateDatas = InputDatasList.Find(x => x.LineItem.Contains("WACC"));
+                if (DiscountRateDatas != null)
+                {
                     wsCapitalBudgeting.Cells[(row_count + 1), 2].Value = DiscountRateDatas.Value;
+                }
+            
+            }
+
+
+                    // wsCapitalBudgeting.Cells[(5 + row_count), 2].Value = capitalBudgeting[0].MarginalTaxRate;
+                    // wsCapitalBudgeting.Cells[(5 + row_count + 1), 2].Value = capitalBudgeting[0].DiscountRate;
+
+                    // var MarginalTaxDatas = InputDatasList.Find(x => x.LineItem.Contains("Marginal Tax rate"));
+                    // wsCapitalBudgeting.Cells[(row_count), 2].Value = MarginalTaxDatas.Value;
+
+                    // var DiscountRateDatas = InputDatasList.Find(x => x.LineItem.Contains("WACC"));
+                    // wsCapitalBudgeting.Cells[(row_count + 1), 2].Value = DiscountRateDatas.Value;
                 }
 
                 wsCapitalBudgeting = ReturnCellStyle("Marginal Tax Rate(%)", (5 + row_count), 1, wsCapitalBudgeting, 0);
@@ -9723,10 +9833,25 @@ namespace Sowfin.API.Controllers
                         }
                     }
 
-                string[,] addArray2D = new string[summaryOutput.Length, summaryOutput[0].Length];
-                string[,] addArray2D1 = new string[result.ProjectSummaryDatasVM.Count, result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM.Count];
+                string[,] addArray2D = new string[1,1];
+                string[,] addArray2D1 = new string[1, 1];
 
-                for (int o = 0; o <result.ProjectSummaryDatasVM.Count; o++)
+                if (summaryOutput != null && summaryOutput.Length > 0 && summaryOutput[0] != null)
+                {
+                    addArray2D = new string[summaryOutput.Length, summaryOutput[0].Length];
+                }
+
+
+                if (result.ProjectSummaryDatasVM != null && result.ProjectSummaryDatasVM.Count > 0 && 
+                    result.ProjectSummaryDatasVM[0] != null && 
+                    result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM != null &&
+                    result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM.Count > 0)
+                {
+                   addArray2D1 = new string[result.ProjectSummaryDatasVM.Count, result.ProjectSummaryDatasVM[0].ProjectOutputValuesVM.Count];
+                }
+            if (result != null && result.ProjectSummaryDatasVM != null && result.ProjectSummaryDatasVM.Count > 0)
+            {
+                for (int o = 0; o < result.ProjectSummaryDatasVM.Count; o++)
                 {
 
                     if (result.ProjectSummaryDatasVM[o].ProjectOutputValuesVM != null)
@@ -9856,6 +9981,10 @@ namespace Sowfin.API.Controllers
                         addArray2D[o, p] = Convert.ToString(addr.ToString());
                     }
                 }
+            }
+
+            if(summaryOutput != null && summaryOutput.Length > 0)
+           {
 
                 for (int o = 0; o < summaryOutput.Length; o++)
                 {
@@ -9897,6 +10026,7 @@ namespace Sowfin.API.Controllers
                         }
                     }
                 }
+            }
 
                 List<string> sales = new List<string>();
                 List<string> cogs = new List<string>();
@@ -10013,9 +10143,23 @@ namespace Sowfin.API.Controllers
                     }
                 }
 
-                var lastAddr = new ExcelAddress(lastCell);
+                // var lastAddr = new ExcelAddress(lastCell);
 
-                row_count = lastAddr.Start.Row + 5;
+            ExcelAddress lastAddr = null;
+
+            if (!string.IsNullOrEmpty(lastCell))
+            {
+   
+                lastAddr = new ExcelAddress(lastCell);
+            }
+
+
+
+
+                if (lastAddr != null && lastAddr.Start != null)
+                {
+                    row_count = lastAddr.Start.Row + 5;
+                }
                 if (Flag == 3 && str != null)
                 {
                     List<Dictionary<string, object>> body = JsonConvert.DeserializeObject<List<Dictionary<string, object>>>(str);
@@ -10121,7 +10265,9 @@ namespace Sowfin.API.Controllers
         public ActionResult<Object> Sensitivity(long UserId, long ProjectId)
         {   
             List<CapitalBudgeting> capitalBudgeting = iCapitalBudgeting.FindBy(s => s.UserId == UserId && s.ProjectId == ProjectId).ToList();
-
+            if( capitalBudgeting != null && capitalBudgeting.Count() > 0)
+            {
+             
             TableData tableData = JsonConvert.DeserializeObject<TableData>(capitalBudgeting[0].RawTableData);
 
             AggregateList aggregateList = JsonConvert.DeserializeObject<AggregateList>(capitalBudgeting[0].TableData);
@@ -10150,6 +10296,11 @@ namespace Sowfin.API.Controllers
 
             string dictResult = JsonConvert.SerializeObject(result);
             return Ok(result);
+            }
+            else
+            {
+                return NotFound("No data found");
+            }
         }
 
         /// <summary>
@@ -10167,6 +10318,7 @@ namespace Sowfin.API.Controllers
             //var capBuds = await iCapBud.GetCapBud(UserId, ProjectId);
             //var stuff = JsonConvert.DeserializeObject(capBuds[0].DictionaryKeys);
             List<CapitalBudgeting> capBudList = iCapitalBudgeting.FindBy(s => s.UserId == UserId && s.ProjectId == ProjectId).ToList();
+
             // var redisKey = "Evaluation_" + UserId.ToString() + "::" + ProjectId.ToString();
             // var present = iSowfinCache.IsInCache(redisKey);
             // if (present == false)
@@ -10178,6 +10330,10 @@ namespace Sowfin.API.Controllers
             // {
             //     capBudList.Add(iSowfinCache.Get<CapitalBudgeting>(redisKey));
             // }
+            if(capBudList == null || capBudList.Count() == 0)
+            {
+                return NotFound("No data found");
+            }
             List<double> npvList = new List<double>();
             for (int i = 0; i < body.Count; i++)
             {
@@ -10244,6 +10400,8 @@ namespace Sowfin.API.Controllers
         /// <param name="UserId"></param>
         /// <param name="ProjectId"></param>
         /// <returns></returns>
+
+
         [HttpGet]
         [Route("GetAllTables/{UserId}/{ProjectId}")]
         public ActionResult<Object> GetAllTables(long UserId, long ProjectId)
@@ -10356,13 +10514,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapShots.GetSingle(s => s.SnapShotType == CAPITALBUDGETINGSNAPSHOT && s.Id == Id);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No data found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -10411,13 +10569,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapShots.FindBy(s => s.SnapShotType == SENSITIVITYSNAPSHOT && s.ProjectId == ProjecId);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No data found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -10435,13 +10593,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapShots.FindBy(s => s.SnapShotType == SENSITIVITYSNAPSHOT && s.Id == Id);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("no data found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -10492,13 +10650,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapShots.FindBy(s => s.SnapShotType == SCENARIOSNAPSHOT && s.ProjectId == ProjecId);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No data found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -10516,13 +10674,13 @@ namespace Sowfin.API.Controllers
                 var SnapShot = iSnapShots.FindBy(s => s.SnapShotType == SCENARIOSNAPSHOT && s.Id == Id);
                 if (SnapShot == null)
                 {
-                    return NotFound();
+                    return NotFound("No data found");
                 }
                 return Ok(SnapShot);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return BadRequest();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -10535,14 +10693,7 @@ namespace Sowfin.API.Controllers
                 var capBud = iCapitalBudgeting.FindBy(s => s.UserId == UserId && s.ProjectId == ProjectId).FirstOrDefault();
                 if (capBud == null)
                 {
-                    return Ok(new
-                    {
-                        result = new Approval
-                        {
-                        },
-                        message = "No data",
-                        code = 200
-                    });
+                    return NotFound("No data found");
                 }
                 else
                 {
@@ -10560,9 +10711,9 @@ namespace Sowfin.API.Controllers
                     });
                 }
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
         }
 
@@ -11015,7 +11166,14 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
         /// <returns></returns>
         public static List<double> ProvideAggregate(List<List<double>> listOfList, int flag)
         {
+                if (listOfList == null || listOfList.Count == 0)
+                {
+                    return new List<double> { 0 };
+                }
+
+
             List<double> sum = new List<double>();
+
             for (int w = 0; w < listOfList[0].Count; w++)
             {
                 double colSum = 0;
@@ -11138,36 +11296,60 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
         /// <param name="capKeys"></param>
         /// <param name="CapValues"></param>
         /// <returns></returns>
-        public static List<string> GetDep(object[][][] depList, out List<List<double>> depValues,
+       public static List<string> GetDep(object[][][] depList, out List<List<double>> depValues,
             out List<string> capKeys, out List<List<double>> CapValues)
         {
             List<string> Depkeys = new List<string>();
             List<List<double>> DepList = new List<List<double>>();
             List<string> Capkeys = new List<string>();
             List<List<double>> CapList = new List<List<double>>();
+
             for (int i = 0; i < depList.Length; i++)
             {
-                List<double> listDep = new List<double>();
-                for (int j = 1; j < depList[0][1].Length; j++)
+                // Ensure depList[i] is not null and has the required length
+                if (depList[i] != null && depList[i].Length > 1 && depList[i][1] != null && depList[i][0] != null)
                 {
+                    List<double> listDep = new List<double>();
+                    for (int j = 1; j < depList[i][1].Length; j++)
+                    {
+                        // Ensure that the current element is not null before parsing
+                        if (depList[i][1][j] != null)
+                        {
+                            listDep.Add(ParseDouble(depList[i][1][j]));
+                        }
+                    }
 
-                    listDep.Add(ParseDouble(depList[i][1][j]));
+                    List<double> listCap = new List<double>();
+                    for (int j = 1; j < depList[i][0].Length; j++)
+                    {
+                        if (depList[i][0][j] != null)
+                        {
+                            listCap.Add(ParseDouble(depList[i][0][j]));
+                        }
+                    }
 
+                    // Check that the first element exists before adding to the keys
+                    if (depList[i][0].Length > 0 && depList[i][0][0] != null)
+                    {
+                        Capkeys.Add(depList[i][0][0].ToString());  // for capex
+                    }
+
+                    if (depList[i][1].Length > 0 && depList[i][1][0] != null)
+                    {
+                        Depkeys.Add(depList[i][1][0].ToString());  // for dep
+                    }
+
+                    CapList.Add(listCap);
+                    DepList.Add(listDep);
                 }
-                List<double> listCap = new List<double>();
-                for (int j = 1; j < depList[0][0].Length; j++)
+                else
                 {
-                    listCap.Add(ParseDouble(depList[i][0][j]));
+                    Console.WriteLine($"Warning: depList[{i}] is null or does not have the required structure.");
                 }
-                Capkeys.Add(depList[i][0][0].ToString());  // for capex
-                CapList.Add(listCap);
-
-                Depkeys.Add(depList[i][1][0].ToString());  // for dep
-                DepList.Add(listDep);
             }
+
             capKeys = Capkeys;
             CapValues = CapList;
-
             depValues = DepList;
             return Depkeys;
         }
@@ -12188,11 +12370,19 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
         /// <param name="salesResult"></param>
         /// <param name="cogsResult"></param>
         /// <returns></returns>
-        public static List<string> RevenueFormula(List<List<List<string>>> list, out List<string> salesResult, out List<string> cogsResult)
+        private static List<string> RevenueFormula(List<List<List<string>>> list, out List<string> salesResult, out List<string> cogsResult)
         {
             List<string> salesList = new List<string>();
             List<string> cogsList = new List<string>();
             List<string> grossList = new List<string>();
+
+                if (list == null || list.Count == 0 || list[0] == null || list[0].Count == 0 || list[0][0] == null)
+                {
+                    // Return empty results if the input list is not valid
+                    salesResult = new List<string> { "N/A" };
+                    cogsResult = new List<string> { "N/A" };
+                    return new List<string> { "N/A" };
+                }
             for (int w = 0; w < list[0][0].Count; w++)
             {
                 string grossMargin = null;
@@ -12460,6 +12650,10 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
         public static List<string> FormulaGeneration(List<List<string>> listOfList, int flag)
         {
             List<string> result = new List<string>();
+            if (listOfList == null || listOfList.Count == 0 || listOfList[0] == null || listOfList[0].Count == 0)
+            {
+                return result; 
+            }
             for (int i = 0; i < listOfList[0].Count(); i++)
             {
                 string sum = null;
@@ -12598,9 +12792,13 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
         public static List<List<string>> GetCellAddress(string[,] addArray2D, string cellOne, string cellTwo)
         {
             List<List<string>> cellAddress = new List<List<string>>();
+            if (addArray2D == null)
+            {
+                return cellAddress;
+            }
             for (int k = 0; k < addArray2D.GetLength(0); k++)
             {
-                if (addArray2D[k, 0].Contains(cellOne))
+                if (addArray2D[k, 0] != null && addArray2D[k, 0].Contains(cellOne))
                 {
                     for (int m = k + 1; m < addArray2D.GetLength(0); m++)
                     {
@@ -12652,14 +12850,7 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
                 var capBud = iCapitalBudgeting.GetSingle(s => s.UserId == UserId && s.ProjectId == ProjectId);
                 if (capBud == null)
                 {
-                    return Ok(new
-                    {
-                        result = new Approval
-                        {
-                        },
-                        message = "No data",
-                        code = 200
-                    });
+                    return NotFound("No data found");
                 }
                 else
                 {
@@ -12785,7 +12976,7 @@ public static List<List<double>> ProvideListOfList(int index, object[][][] inner
             }
             catch (Exception ex)
             {
-                return NotFound();
+                return BadRequest(ex.Message);
             }
         }
 

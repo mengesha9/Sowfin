@@ -124,14 +124,24 @@ namespace Sowfin.API.Lib
         static List<double> Recursive(List<double> values, List<double> leveredValues, double value, ref int count, double rWACC)
         {
             count--;
+
+            if (count < 0 || count >= values.Count)
+            {
+                Console.WriteLine("Invalid access: count is out of range.");
+                return leveredValues; 
+            }
+
+            value = ((values[count] + value) / (1 + (rWACC / 100)));
+            leveredValues.Add(value);
+
             if (count == 0)
             {
                 return leveredValues;
             }
-            value = ((values[count] + value) / (1 + (rWACC / 100)));
-            leveredValues.Add(value);
+
             return Recursive(values, leveredValues, value, ref count, rWACC);
         }
+
 
         // Code Merge
 

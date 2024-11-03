@@ -11,10 +11,16 @@ namespace Sowfin.Data.Common.Helper
     {
         public static string DescriptionAttr<T>(this T source)
         {
+            if(source == null)
+            {
+                return string.Empty;
+            }
             // FieldInfo fi = source.GetType().GetField(source.ToString());
             FieldInfo? fi = source?.GetType().GetField(source.ToString() ?? string.Empty);
-
-
+            if (fi == null)
+            {
+                return string.Empty; // or return a fallback description
+            }
             DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(
                 typeof(DescriptionAttribute), false);
 

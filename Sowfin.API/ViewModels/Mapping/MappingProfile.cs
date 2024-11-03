@@ -49,6 +49,9 @@ namespace Sowfin.API.ViewModels.Mapping
             CreateMap<CurrentSetup, CurrentSetupViewModel>();
             CreateMap<CurrentSetupViewModel, CurrentSetup>();
 
+            CreateMap<Findata,FindataViewModel>().ReverseMap();
+            CreateMap<Findata, FinCell>().ReverseMap();
+
             CreateMap<CurrentSetupIpDatas, CurrentSetupIpDatasViewModel>();
             CreateMap<CurrentSetupIpValues, CurrentSetupIpValuesViewModel>();
             CreateMap<CurrentSetupIpDatasViewModel, CurrentSetupIpDatas>();
