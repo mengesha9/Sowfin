@@ -5,6 +5,8 @@ using Sowfin.API.ViewModels.User;
 using Sowfin.Data.Abstract;
 using System;
 using System.Linq;
+using  Sowfin.API.Services.Abstraction;
+
 
 namespace Sowfin.API.Controllers
 {
@@ -14,9 +16,11 @@ namespace Sowfin.API.Controllers
     {
 
         private readonly IUserRepository iUser = null;
-        public UserController(IUserRepository _iUser)
+        private readonly IAuthService iAuthService = null;
+        public UserController(IUserRepository _iUser, IAuthService _iAuthService)
         {
             iUser = _iUser;
+            iAuthService = _iAuthService;
 
         }
 
@@ -37,12 +41,14 @@ namespace Sowfin.API.Controllers
                 return BadRequest(new { password = "invalid password" });
             }
 
+            var token = iAuthService.GetAuthData(user.Id.ToString());
+
             return Ok(new
             {
                 id = user.Id,
                 userName = user.UserName,
                 roleId = user.RoleId,
-                token = "Test token end point",
+                token = token.Token,
                 message = "success"
             });
         }
@@ -77,7 +83,10 @@ namespace Sowfin.API.Controllers
                 return BadRequest(new { message = ex.Message, statusCode = 400 });
             }
 
-            return Ok(new { message = "User created sucessfulyy", statusCode = 200 });
+            var auth = iUser.FindBy(s => s.UserName == model.UserName || s.Email == model.Email).ToArray();
+            var token = iAuthService.GetAuthData(auth[0].Id.ToString());
+
+            return Ok(new { message = "User created sucessfulyy", statusCode = 200, token = token.Token });
         }
 
         [HttpPost("UsernameCheck")]
