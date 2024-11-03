@@ -12,7 +12,7 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Build runtime image with a generic tag (no specific architecture)
-FROM mcr.microsoft.com/dotnet/aspnet:8.0-bullseye-slim
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /App
 
 COPY --from=build-env /App/out .
