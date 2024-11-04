@@ -111,24 +111,6 @@ builder.Services.AddDbContext<FindataContext>((serviceProvider, options) =>
 
 
 
-// builder.Services.AddDbContext<FindataContext>((serviceProvider, options) =>
-// {
-//     var httpContext = serviceProvider.GetService<IHttpContextAccessor>().HttpContext;
-//     var cikValue = httpContext.Request.Headers["Cik"];
-//     if (cikValue.ToString() != "")
-//     {
-//         //var connectionString = "Server=sowiv.infofactors.com;Database=dataengine_" + cikValue + ";Username=postgres;Password=sowfin123";
-//         var connectionString = "Server=localhost;Database=dataengine_" + cikValue + ";Username=postgres;Password=system";
-//         NpgsqlConnectionStringBuilder builder = new NpgsqlConnectionStringBuilder(connectionString);
-//         options.UseNpgsql(builder.ToString(), o => o.MigrationsAssembly("Sowfin.API"));
-//     }
-//     else
-//     {
-//         options.UseNpgsql(configuration.GetConnectionString("FindataContext"),
-//         o => o.MigrationsAssembly("Sowfin.API"));
-//     }
-
-// });
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -218,13 +200,13 @@ builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 
+app.UseSwagger();
+app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 else{
     app.UseHsts();
