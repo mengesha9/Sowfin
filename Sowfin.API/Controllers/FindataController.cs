@@ -222,7 +222,7 @@ namespace Sowfin.API.Controllers
             }
             findataRepository.UpdatedMany(temList);
 
-            return Ok();
+            return Ok(new { Message = "Updated Successfully" });
         }
 
         [HttpGet]
@@ -296,9 +296,12 @@ namespace Sowfin.API.Controllers
         [Route("savefindata")]
         public ActionResult PostFinData([FromBody]List<FindataViewModel> finData)
         {
-            if (!ModelState.IsValid) return BadRequest(new
-            { messgae = "Invalid entry" });
+            if (!ModelState.IsValid) {
+                return BadRequest(new
+                    { messgae = "Invalid entry" });
 
+            }
+  
             List<Findata> listFinData = new List<Findata>();
 
             foreach (var data in finData)
@@ -321,7 +324,8 @@ namespace Sowfin.API.Controllers
                 listFinData.Add(finDataSave);
             }
             findataRepository.AddMany(listFinData);
-            return Ok();
+
+            return Ok(new {Message = "Saved Successfuly"});
         }
 
         static int Format(string str)
@@ -702,7 +706,7 @@ namespace Sowfin.API.Controllers
                 ////Update InitialSetupID into Filings///
                 long? InitialSetupID = null;
                 List<CategoryByInitialSetup> categoryList = new List<CategoryByInitialSetup>();
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 if (InitialSetup_IValuationObj != null)
                 {
                     InitialSetupID = InitialSetup_IValuationObj.Id;
@@ -1050,7 +1054,7 @@ namespace Sowfin.API.Controllers
                 List<IntegratedDatas> tempintegratedDatasListObj = new List<IntegratedDatas>();
                 IntegratedDatasViewModel integratedDatasVm = new IntegratedDatasViewModel();
 
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
 
                 //check in the database if exist then get by DB else go with the flow
                 List<IntegratedDatas> tblintegrateddatasListObj = InitialSetup_IValuationObj != null ? iIntegratedDatas.FindBy(x => x.InitialSetupId == InitialSetup_IValuationObj.Id).ToList() : null;
@@ -1181,7 +1185,7 @@ namespace Sowfin.API.Controllers
             try
             {
                 long? InitialSetupId = null;
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).FirstOrDefault();
                 //InitialSetup_IValuation InitialSetup_IValuationbj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
                 if (InitialSetup_IValuationObj != null)
                 {
@@ -2150,7 +2154,7 @@ namespace Sowfin.API.Controllers
             {
                 // get current initial Setup
                 //InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).FirstOrDefault();
 
                 //temporarily for Income statement Only
                 if (StatementTypeId == (int)StatementTypeEnum.IncomeStatement || StatementTypeId == (int)StatementTypeEnum.BalanceSheet)
@@ -5065,7 +5069,7 @@ namespace Sowfin.API.Controllers
                 List<IntegratedDatas> tempintegratedDatasListObj = new List<IntegratedDatas>();
                 IntegratedDatasViewModel integratedDatasVm = new IntegratedDatasViewModel();
 
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
 
                 //check in the database if exist then get by DB else go with the flow
                 List<IntegratedDatas> tblintegrateddatasListObj = InitialSetup_IValuationObj != null ? iIntegratedDatas.FindBy(x => x.InitialSetupId == InitialSetup_IValuationObj.Id).ToList() : null;
@@ -5930,7 +5934,7 @@ namespace Sowfin.API.Controllers
             try
             {
                 long? InitialSetupId = null;
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == InitialsetupId).OrderByDescending(x => x.Id).FirstOrDefault();
                 //InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
                 if (InitialSetup_IValuationObj != null)
                 {
@@ -6972,7 +6976,7 @@ namespace Sowfin.API.Controllers
                     //save data to ForcastRatioDatas 
                     foreach (ForcastRatioFilingsViewModel ForcastRatioFilingsObj in ForcastRatioFilingsvmList)
                     {
-                        initialSetupId = ForcastRatioFilingsObj.ForcastRatioDatasVM.First().InitialSetupId != null ? ForcastRatioFilingsObj.ForcastRatioDatasVM.First().InitialSetupId : 0;
+                        initialSetupId = ForcastRatioFilingsObj.ForcastRatioDatasVM.First().InitialSetupId != null ? ForcastRatioFilingsObj.ForcastRatioDatasVM.FirstOrDefault().InitialSetupId : 0;
                         if (ForcastRatioFilingsObj.ForcastRatioDatasVM != null && ForcastRatioFilingsObj.ForcastRatioDatasVM.Count > 0)
                         {
                             //Save  Forcast Ratio one by one 
@@ -7024,13 +7028,15 @@ namespace Sowfin.API.Controllers
                             }
                             //}
 
-                            InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == initialSetupId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                            InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.Id == initialSetupId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                             Integrated_ExplicitValues explicitValue = new Integrated_ExplicitValues();
                             List<Integrated_ExplicitValues> explicitValuesList = new List<Integrated_ExplicitValues>();
                             Integrated_ExplicitValues calculatedExplicitValues = new Integrated_ExplicitValues();
                             List<Integrated_ExplicitValues> calculatedExplicitValuesList = new List<Integrated_ExplicitValues>();
+                            Console.WriteLine("1");
                             if (InitialSetup_IValuationObj != null)
                             {
+                                Console.WriteLine("2");
                                 int year = Convert.ToInt32(InitialSetup_IValuationObj.YearTo);
                                 for (int i = 1; i <= InitialSetup_IValuationObj.ExplicitYearCount + 1; i++)
                                 {
@@ -7042,6 +7048,7 @@ namespace Sowfin.API.Controllers
                                     explicitValuesList.Add(explicitValue);
                                 }
                             }
+                            Console.WriteLine("3");
                             bool flag = false;
                             IntegratedDatas errorObj = new IntegratedDatas();
                             try
@@ -9587,7 +9594,7 @@ namespace Sowfin.API.Controllers
                 ForcastRatio_ExplicitValuesViewModel explicitValue;
 
                 //actual code
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
 
                 //check in the database if exist then get by DB else go with the flow
                 List<ForcastRatioDatas> tblForCastRatioListObj = InitialSetup_IValuationObj != null ? iForcastRatioDatas.FindBy(x => x.InitialSetupId == InitialSetup_IValuationObj.Id).ToList() : null;
@@ -9867,7 +9874,7 @@ namespace Sowfin.API.Controllers
                             IntegratedDatas netIncome = iIntegratedDatas.GetSingle(x => x.LineItem == "NET INCOME after extraordinary items" && x.InitialSetupId == InitialSetup_IValuationObj.Id);
                             List<Integrated_ExplicitValues> netIncomeExplicitList = netIncome != null ? iIntegrated_ExplicitValues.FindBy(x => x.IntegratedDatasId == netIncome.Id).ToList() : null;
                             List<ForcastRatioDatas> DividentPayoutRatiosList = forcaastratiodatas_IncomeList.FindAll(x => x.LineItem.Contains("Dividend Payout Ratio"));
-                            ForcastRatioDatas DividentPayoutRatiosObj = DividentPayoutRatiosList != null && DividentPayoutRatiosList.Count > 0 ? DividentPayoutRatiosList.OrderBy(x => x.Sequence).First() : null;
+                            ForcastRatioDatas DividentPayoutRatiosObj = DividentPayoutRatiosList != null && DividentPayoutRatiosList.Count > 0 ? DividentPayoutRatiosList.OrderBy(x => x.Sequence).FirstOrDefault() : null;
                             List<ForcastRatio_ExplicitValues> DividentPayoutRatiosExpValList = DividentPayoutRatiosObj != null ? DividentPayoutRatiosObj.ForcastRatio_ExplicitValues : null;
                             bool TotalOngoing = false;
                             int DPSCount = 1;
@@ -11673,7 +11680,7 @@ namespace Sowfin.API.Controllers
                 List<ReorganizedValuesViewModel> ValuesList = new List<ReorganizedValuesViewModel>();
                 // obj = Mapper.Map<IntegratedDatas,IntegratedDatasViewModel>(CostofSales_HistForcastRatio);
                 //actual code
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
 
                 //check in the database if exist then get by DB else go with the flow
                 List<ReorganizedDatas> tblReorganizedListObj = InitialSetup_IValuationObj != null ? iReorganizedDatas.FindBy(x => x.InitialSetupId == InitialSetup_IValuationObj.Id).ToList() : null;
@@ -11791,7 +11798,7 @@ namespace Sowfin.API.Controllers
                 ReorganizedValuesViewModel ReorgValue;
                 // obj = Mapper.Map<IntegratedDatas,IntegratedDatasViewModel>(CostofSales_HistForcastRatio);
                 //actual code
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
 
                 //check in the database if exist then get by DB else go with the flow
                 List<ReorganizedDatas> tblReorganizedListObj = InitialSetup_IValuationObj != null ? iReorganizedDatas.FindBy(x => x.InitialSetupId == InitialSetup_IValuationObj.Id).ToList() : null;
@@ -13775,7 +13782,7 @@ namespace Sowfin.API.Controllers
             List<ROICValuesViewModel> ValuesList = new List<ROICValuesViewModel>();
             try
             {
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 long? InitialsetupId = null;
                 if (InitialSetup_IValuationObj != null)
                 {
@@ -15195,7 +15202,7 @@ namespace Sowfin.API.Controllers
             AssetsEquityFilingsViewModel AssetsEquityFiling = new AssetsEquityFilingsViewModel();
             try
             {
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 long? InitialsetupId = null;
                 if (InitialSetup_IValuationObj != null)
                 {
@@ -16482,7 +16489,7 @@ namespace Sowfin.API.Controllers
             IVScenarioViewModel IVScenarioViewModelObj = new IVScenarioViewModel();
             try
             {
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 long? InitialsetupId = null;
                 if (InitialSetup_IValuationObj != null)
                 {
@@ -16531,7 +16538,7 @@ namespace Sowfin.API.Controllers
                 List<ROIC_ExplicitValues> NewNoplatExpValueList = new List<ROIC_ExplicitValues>();
                 ROIC_ExplicitValues tmpROIC_ExplicitValues = new ROIC_ExplicitValues();
                 Reorganized_ExplicitValues tmpReorganized_ExplicitValues = new Reorganized_ExplicitValues();
-                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).First();
+                InitialSetup_IValuation InitialSetup_IValuationObj = iInitialSetup_IValuation.FindBy(x => x.UserId == UserId && x.IsActive == true).OrderByDescending(x => x.Id).FirstOrDefault();
                 long? InitialsetupId = null;
                 int? ExpTo = 0;
                 int? ExpFrom = 0;
@@ -16709,7 +16716,7 @@ namespace Sowfin.API.Controllers
 
         #region  InitialSetup_IValuation 
 
-        [HttpGet]
+        [HttpDelete]
         [Route("DeleteDataByInitialSetupId/{InitialSetupId}")]
         public ActionResult DeleteDataByInitialSetupId(long InitialSetupId)
         {

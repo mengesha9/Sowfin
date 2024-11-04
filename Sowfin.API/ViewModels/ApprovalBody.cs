@@ -8,7 +8,7 @@ namespace Sowfin.API.ViewModels
   
     public class ApprovalBody
     {
-        public long UserId;
-        public int ApprovalFlag;
+        public long UserId { get; set; }
+        public int ApprovalFlag { get; set; }
     }
 }

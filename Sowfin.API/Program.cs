@@ -109,10 +109,6 @@ builder.Services.AddDbContext<FindataContext>((serviceProvider, options) =>
 
 
 
-
-
-
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -225,5 +221,8 @@ app.UseAuthorization();
 app.UseRouting();
 app.Run();
 
+
+
+    // "FindataContext": "Server=localhost;Database=sowfin;Username=postgres;Password=nitesh"
 
 

@@ -16,6 +16,7 @@ namespace Sowfin.Data
 
 
         //public DbSet<Filing> Filing { get; set; }
+        public DbSet<CapitalAnalysisSnapshot> CapitalAnalysisSnapshot { get; set; }
         public DbSet<Findata> FinData { get; set; }
         public DbSet<HistoricalTable> HistoricalTable { get; set; }
         public DbSet<LineItemInfo> LineItemInfo { get; set; }
@@ -342,6 +343,12 @@ namespace Sowfin.Data
             ConfigureModelBuilderForSensitivityInputGraphData(modelBuilder);
 
             ConfigureModelBuilderForCapitalStructureScenarioSnapshot(modelBuilder);
+            ConfigureModelBuilderForCapitalAnalysisSnapshot(modelBuilder);
+        }
+
+        void ConfigureModelBuilderForCapitalAnalysisSnapshot(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CapitalAnalysisSnapshot>().ToTable("capitalAnalysisSnapshot");
         }
 
         void ConfigureModelBuilderForFiling(ModelBuilder modelBuilder)
