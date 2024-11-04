@@ -108,6 +108,7 @@ builder.Services.AddDbContext<FindataContext>((serviceProvider, options) =>
 
 
 
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -195,13 +196,13 @@ builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 
+app.UseSwagger();
+app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 else{
     app.UseHsts();
