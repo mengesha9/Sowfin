@@ -222,3 +222,6 @@ app.Run();
 
 
 
+    // "FindataContext": "Server=localhost;Database=sowfin;Username=postgres;Password=nitesh"
+
+

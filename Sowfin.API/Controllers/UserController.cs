@@ -10,9 +10,10 @@ using  Sowfin.API.Services.Abstraction;
 
 namespace Sowfin.API.Controllers
 {
+     [ApiController]
     [Route("api/[controller]")]
 
-    public class UserController : Controller
+    public class UserController : ControllerBase
     {
 
         private readonly IUserRepository iUser = null;

@@ -1,5 +1,6 @@
 # Build environment
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build-env
+
 WORKDIR /App
 
 EXPOSE 80
@@ -12,10 +13,9 @@ RUN dotnet restore
 RUN dotnet publish -c Release -o out
 
 # Build runtime image with a generic tag (no specific architecture)
-# FROM mcr.microsoft.com/dotnet/aspnet:8.0-bullseye-slim
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 
 
 WORKDIR /App
 
 COPY --from=build-env /App/out .
-ENTRYPOINT ["dotnet", "Siwfn.API.dll"]
+ENTRYPOINT ["dotnet", "Sowfin.API.dll"]
