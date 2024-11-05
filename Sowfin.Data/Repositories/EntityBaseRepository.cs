@@ -26,6 +26,11 @@ namespace Sowfin.Data.Repositories
             _context.Set<T>().Add(entity);
         }
 
+        public async Task<List<T>> GetAll()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
 
 
         public async virtual void AddMany(IEnumerable<T> entities)
@@ -54,10 +59,10 @@ namespace Sowfin.Data.Repositories
         {
             _context.SaveChanges();
         }
-        public virtual IEnumerable<T> GetAll()
-        {
-            return _context.Set<T>().AsEnumerable();
-        }
+        // public virtual IEnumerable<T> GetAll()
+        // {
+        //     return _context.Set<T>().AsEnumerable();
+        // }
 
         public virtual int Count()
         {
