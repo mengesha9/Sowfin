@@ -25,19 +25,39 @@ namespace Sowfin.API.Controllers
 
         }
 
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var users = await iUser.GetAll();
+            return Ok(users);
+        }
+
+        [HttpDelete("Delete/{id}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = iUser.GetSingle(u => u.Id == id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            iUser.Delete(user);
+            iUser.Commit();
+            return Ok();
+        }
+
         [HttpPost("Login")]
         public ActionResult<Object> Post([FromBody]UserLoginViewModel model)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var user = iUser.GetSingle(u => u.UserName == model.username);
+            var user = iUser.GetSingle(u => u.Email == model.Email);
 
-            if (user == null)
+            if (user == null )
             {
                 return BadRequest(new { email = "no user with this email" });
             }
 
-            if (model.password != user.Password)
+            if (model.Password != user.Password)
             {
                 return BadRequest(new { password = "invalid password" });
             }
@@ -77,6 +97,11 @@ namespace Sowfin.API.Controllers
                 };
                 iUser.Add(user);
                 iUser.Commit();
+                
+                var auth = iUser.FindBy(s => s.UserName == model.UserName || s.Email == model.Email).ToArray();
+                var token = iAuthService.GetAuthData(auth[0].Id.ToString());
+
+                return Ok(new { message = "User created sucessfulyy", statusCode = 200, token = token.Token });
 
             }
             catch (Exception ex)
@@ -84,11 +109,9 @@ namespace Sowfin.API.Controllers
                 return BadRequest(new { message = ex.Message, statusCode = 400 });
             }
 
-            var auth = iUser.FindBy(s => s.UserName == model.UserName || s.Email == model.Email).ToArray();
-            var token = iAuthService.GetAuthData(auth[0].Id.ToString());
 
-            return Ok(new { message = "User created sucessfulyy", statusCode = 200, token = token.Token });
         }
+
 
         [HttpPost("UsernameCheck")]
         public IActionResult UsernameCheck([FromBody]UserCheck userCheck)

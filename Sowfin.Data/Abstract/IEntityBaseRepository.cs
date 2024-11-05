@@ -8,6 +8,7 @@ namespace Sowfin.Data.Abstract
 {
     public interface IEntityBaseRepository<T>  where T : class
     {
+        Task<List<T>>  GetAll();
         void Add(T entity);
         void AddMany(IEnumerable<T> entities);
         void Delete(T entity);

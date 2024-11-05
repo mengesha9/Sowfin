@@ -2954,7 +2954,7 @@ namespace Sowfin.API.Controllers
 
 
 
-        [HttpGet]
+        [HttpDelete]
         [Microsoft.AspNetCore.Mvc.Route("DeleteProject/{Id}")]
         public ActionResult<Object> DeleteProject(long Id)
         {
