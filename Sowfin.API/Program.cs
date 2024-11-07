@@ -196,13 +196,13 @@ builder.Services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
 var app = builder.Build();
 
+
 app.UseSwagger();
 app.UseSwaggerUI();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-
 }
 else{
     app.UseHsts();
@@ -226,3 +226,4 @@ app.Run();
     // "FindataContext": "Server=localhost;Database=sowfin;Username=postgres;Password=nitesh"
 
 
+    //"FindataContext":"Host=dpg-csk8l5dsvqrc73f3c4vg-a.frankfurt-postgres.render.com;Database=sowfin_db;Username=sowfin;Password=VyYAIVN3xzw9aJ3Kp8h2ESW7ZkRVHHKG;"
